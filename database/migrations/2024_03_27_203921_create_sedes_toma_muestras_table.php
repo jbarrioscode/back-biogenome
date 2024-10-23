@@ -17,6 +17,8 @@ return new class extends Migration
             $table->softDeletes();
             $table->string('nombre');
             $table->string('descripcion')->nullable();
+            $table->unsignedBigInteger('ciudad_id');
+            $table->foreign('ciudad_id')->references('id')->on('ciudades_municipios');
         });
     }
 

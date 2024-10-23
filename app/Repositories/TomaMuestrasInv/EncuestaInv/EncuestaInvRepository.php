@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Repositories\TomaMuestrasInv\Encuesta\EncuestaInv;
+namespace App\Repositories\TomaMuestrasInv\EncuestaInv;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -14,7 +14,6 @@ class EncuestaInvRepository implements EncuestaInvRepositoryInterface
             DB::beginTransaction();
 
             //SE CREA EL FORMULARIO Y LUEGO SE GUARDA LOS DETALLES
-
 
 
 

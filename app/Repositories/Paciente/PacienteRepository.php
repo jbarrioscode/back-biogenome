@@ -6,13 +6,14 @@ use App\Http\Controllers\Api\v1\Encrypt\EncryptEncuestaInvController;
 use App\Models\TomaMuestrasInv\Paciente\ConsentimientoInformadoPaciente;
 use App\Models\TomaMuestrasInv\Paciente\Pacientes;
 use App\Traits\AuthenticationTrait;
+use App\Traits\RequestResponseFormatTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
 
 class PacienteRepository implements PacienteRepositoryInterface
 {
-    use AuthenticationTrait;
+    use RequestResponseFormatTrait;
 
     public function createPatient(Request $request)
     {

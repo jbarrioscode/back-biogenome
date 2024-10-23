@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Http\Controllers\Api\v1\TomaMuestrasInv\Encuentas;
+namespace App\Http\Controllers\Api\v1\TomaMuestrasInv\Muestras;
 
 use App\Http\Controllers\Controller;
-use App\Repositories\TomaMuestrasInv\Encuesta\SedesTomaMuestra\SedesTomaMuestraRepositoryInterface;
+use App\Repositories\TomaMuestrasInv\SedesTomaMuestra\SedesTomaMuestraRepositoryInterface;
 use Illuminate\Http\Request;
 
 class SedesTomaMuestraController extends Controller
