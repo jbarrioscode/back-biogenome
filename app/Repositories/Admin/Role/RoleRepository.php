@@ -1,19 +1,19 @@
 <?php
 
-namespace App\Repositories\Role;
+namespace App\Repositories\Admin\Role;
 
-use App\Http\Requests\RoleRequest;
-use App\Repositories\Role\Interfaces\RoleRepositoryInterface;
-use App\Traits\AuthenticationTrait;
+use App\Http\Requests\Admin\Role\RoleRequest;
+use App\Traits\RequestResponseFormatTrait;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
 
-class RoleRepository implements Interfaces\RoleRepositoryInterface
+class RoleRepository implements RoleRepositoryInterface
 {
+    // Importing Trait
+    use RequestResponseFormatTrait;
 
-    use AuthenticationTrait;
-
-    public function all()
+    public function all(): JsonResponse
     {
         try {
 
@@ -23,11 +23,11 @@ class RoleRepository implements Interfaces\RoleRepositoryInterface
 
             return $this->success($roles, count($roles), "Roles Returned!", 200);
         } catch (\Throwable $th) {
-            return $th;
+            return $this->error($th->getMessage(), 204, "");
         }
     }
 
-    public function saveRole(RoleRequest $request)
+    public function saveRole(RoleRequest $request): JsonResponse
     {
         try {
 
@@ -46,11 +46,11 @@ class RoleRepository implements Interfaces\RoleRepositoryInterface
 
             return $this->success($role, 1, "Role created Successfully!", 201);
         } catch (\Throwable $th) {
-            return $th;
+            return $this->error($th->getMessage(), 204, "");
         }
     }
 
-    public function modifyRoleById(Request $request, $id)
+    public function modifyRoleById(Request $request, $id): JsonResponse
     {
         try {
 
@@ -71,7 +71,7 @@ class RoleRepository implements Interfaces\RoleRepositoryInterface
 
             return $this->success($role, "Role updated Successfully!", 200);
         } catch (\Throwable $th) {
-            return $th;
+            return $this->error($th->getMessage(), 204, "");
         }
     }
 
@@ -80,7 +80,7 @@ class RoleRepository implements Interfaces\RoleRepositoryInterface
         // TODO: Implement removeOnlyOnePermission() method.
     }
 
-    public function inactivateRoleById($id = null)
+    public function inactivateRoleById($id = null): JsonResponse
     {
         try {
 
@@ -94,7 +94,7 @@ class RoleRepository implements Interfaces\RoleRepositoryInterface
 
             return $this->success("", 1, "Role Removed Successfully!", 200);
         } catch (\Throwable $th) {
-            return $th;
+            return $this->error($th->getMessage(), 204, "");
         }
     }
 }

@@ -11,12 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('doc_types', function (Blueprint $table) {
+        Schema::create('document_types', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->unique();
-            $table->text('description')->nullable();
-            $table->boolean('status')->default(1);
-            $table->unsignedBigInteger('user_id')->nullable();
+            $table->string('initials')->unique();
+            $table->string('name');
+            $table->text('description');
+            $table->boolean('status')->default(true);
 
             $table->softDeletes();
             $table->timestamps();
@@ -28,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('doc_types');
+        Schema::dropIfExists('document_types');
     }
 };

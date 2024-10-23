@@ -3,14 +3,16 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Models\GeneralSettings\DocumentType;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
-    use HasFactory, Notifiable, HasRoles;
+    use HasFactory, Notifiable, HasRoles, HasApiTokens;
 
     /**
      * The attributes that are mass assignable.
@@ -23,15 +25,16 @@ class User extends Authenticatable
         'lastName',
         'surName',
         'username',
+        'document_type_id',
         'document',
         'phone',
         'address',
         'email',
         'password',
-        'userStatus',
+        'status',
         'passwordExpirationDate',
-        'doc_type_id',
         'user_id',
+        'email_verified_at'
     ];
 
     /**
@@ -57,14 +60,15 @@ class User extends Authenticatable
         ];
     }
 
-    public function doctype()
+    protected function doctype()
     {
-        return $this->belongsTo(DocType::class);
+        return $this->belongsTo(DocumentType::class);
     }
 
-    public function passwordHistory()
-    {
-        return $this->hasMany(UserPasswordHistory::class);
-    }
+    protected $with = [
+        'doctype:id,name,created_at',
+        'roles:id,name',
+        'roles.permissions:id,name'
+    ];
 
 }

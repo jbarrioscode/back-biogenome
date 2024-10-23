@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Admin\Role;
 
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -23,6 +23,15 @@ class RoleRequest extends FormRequest
     {
         return [
             'name' => 'required|unique:roles|min:4'
+        ];
+    }
+
+    public function messages(): array
+    {
+        return [
+            'name.required' => 'El NOMBRE del rol es requerido',
+            'name.unique' => 'Ya existe un rol con este nombre',
+            'name.min' => 'El nombre debe contener minimo 4 caracteres'
         ];
     }
 }

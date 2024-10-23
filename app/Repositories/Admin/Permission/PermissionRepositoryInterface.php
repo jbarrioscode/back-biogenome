@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Repositories\Permission\Interfaces;
+namespace App\Repositories\Admin\Permission;
 
-use App\Http\Requests\PermissionRequest;
+use App\Http\Requests\Admin\Permission\PermissionRequest;
 
 interface PermissionRepositoryInterface
 {
