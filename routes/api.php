@@ -29,7 +29,7 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/user', function (Request 
 /** App Routes */
 Route::prefix('/v1')->group(function () {
 
-    Route::middleware(['auth:sanctum', 'verified'])->group(function () {
+    Route::middleware(['auth', 'verified'])->group(function () {
 
         /* ADMINISTRADOR*/
         /** Routes For User Management  */

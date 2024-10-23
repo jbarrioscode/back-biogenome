@@ -14,11 +14,7 @@ class User extends Authenticatable
 {
     use HasFactory, Notifiable, HasRoles, HasApiTokens;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
+
     protected $fillable = [
         'firstName',
         'middleName',
@@ -37,21 +33,13 @@ class User extends Authenticatable
         'email_verified_at'
     ];
 
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var array<int, string>
-     */
+
     protected $hidden = [
         'password',
         'remember_token',
     ];
 
-    /**
-     * Get the attributes that should be cast.
-     *
-     * @return array<string, string>
-     */
+
     protected function casts(): array
     {
         return [
@@ -66,7 +54,7 @@ class User extends Authenticatable
     }
 
     protected $with = [
-        'doctype:id,name,created_at',
+        //'doctypes:id,name,created_at',
         'roles:id,name',
         'roles.permissions:id,name'
     ];
