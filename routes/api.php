@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\v1\Admin\Authentication\AuthenticationController;
+use App\Http\Controllers\Api\v1\Admin\DocumentTypes\DocumentTypesController;
 use App\Http\Controllers\Api\v1\Admin\Permissions\PermissionsController;
 use App\Http\Controllers\Api\v1\Admin\Roles\RolesController;
 use App\Http\Controllers\Api\v1\Admin\Users\UsersController;
@@ -10,10 +11,6 @@ use App\Http\Controllers\Api\v1\TomaMuestrasInv\Encuentas\EncuestaController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Artisan;
-
-/*Route::get('/user', function (Request $request) {
-    return $request->user();
-})->middleware('auth:sanctum');*/
 
 /*
 |--------------------------------------------------------------------------
@@ -32,49 +29,48 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/user', function (Request 
 /** App Routes */
 Route::prefix('/v1')->group(function () {
 
-    //Route::middleware(['auth', 'verified'])->group(function () {
+    Route::middleware(['auth:sanctum', 'verified'])->group(function () {
 
-    /* ADMINISTRADOR*/
+        /* ADMINISTRADOR*/
+        /** Routes For User Management  */
+        Route::get('users', [UsersController::class, 'getUsersList']);
+        Route::post('users/store', [AuthenticationController::class, 'register']);
+        Route::delete('user/inactivate/{id}', [UsersController::class, 'inactivateUserById']);
+        Route::post('users/change-password', [UsersController::class, 'updatePassword']);
+        Route::put('users/update/{userid}', [UsersController::class, 'updateUser']);
 
-    /** Routes For User Management  */
-    Route::get('users', [UsersController::class, 'getUsersList']);
-    Route::post('users/store', [AuthenticationController::class, 'register']);
-    Route::delete('user/inactivate/{id}', [UsersController::class, 'inactivateUserById']);
-    Route::post('users/change-password', [UsersController::class, 'updatePassword']);
-    Route::put('users/update/{userid}', [UsersController::class, 'updateUser']);
+        /** Routes For Handle Permission Management  */
+        Route::get('permissions', [PermissionsController::class, 'getPermissionList']);
+        Route::post('permissions/store', [PermissionsController::class, 'savePermission']);
+        Route::delete('permissions/delete/{id}', [PermissionsController::class, 'inactivatePermissionById']);
 
-    /** Routes For Handle Permissions Management  */
-    Route::get('permissions', [PermissionsController::class, 'getPermissionList']);
-    Route::post('permissions/store', [PermissionsController::class, 'savePermission']);
-    Route::delete('permissions/delete/{id}', [PermissionsController::class, 'inactivatePermissionById']);
+        /** Routes For Handle Role Management  */
+        Route::get('roles', [RolesController::class, 'getRoleList']);
+        Route::post('roles/store', [RolesController::class, 'saveRole']);
+        Route::put('roles/edit/{id}', [RolesController::class, 'modifyRoleById']);
+        Route::delete('roles/delete/{id?}', [RolesController::class, 'inactivateRoleById']);
 
-    /** Routes For Handle Roles Management  */
-    Route::get('roles', [RolesController::class, 'getRoleList']);
-    Route::post('roles/store', [RolesController::class, 'saveRole']);
-    Route::put('roles/edit/{id}', [RolesController::class, 'modifyRoleById']);
-    Route::delete('roles/delete/{id?}', [RolesController::class, 'inactivateRoleById']);
+        /* Routes For Handle DocumentType */
+        Route::get('document-types', [DocumentTypesController::class, 'getDocumentTypeRepository']);
 
-    /*--------------------------------------------------------------------------------*/
+        /*--------------------------------------------------------------------------------*/
 
-    /* PACIENTE  */
+        /* PACIENTE  */
 
-    Route::post('/patient/post/createpatient', [PacienteController::class, 'createPatient']);
-    Route::post('/patient/post/patientinformedconsent', [PacienteController::class, 'patientInformedConsent']);
-
-
-    /*--------------------------------------------------------------------------------*/
-    /* SEDES DE TOMA DE MUESTRAS */
-
-    Route::get('/sedesmuestras/get/sedestomademuestras', [SedesTomaMuestraController::class, 'getSedesTomaMuestra']);
-
-    /*--------------------------------------------------------------------------------*/
-    /* ENCUESTA */
-
-    Route::get('/encuesta/post/crearEncuesta', [EncuestaController::class, '']);
+        Route::post('/patient/post/createpatient', [PacienteController::class, 'createPatient']);
+        Route::post('/patient/post/patientinformedconsent', [PacienteController::class, 'patientInformedConsent']);
 
 
+        /*--------------------------------------------------------------------------------*/
+        /* SEDES DE TOMA DE MUESTRAS */
 
-    //});
+        Route::get('/sedesmuestras/get/sedestomademuestras', [SedesTomaMuestraController::class, 'getSedesTomaMuestra']);
+
+        /*--------------------------------------------------------------------------------*/
+        /* ENCUESTA */
+
+        Route::get('/encuesta/post/crearEncuesta', [EncuestaController::class, '']);
+    });
 
     /* ------------------------------------------------------------------------------------
     /** Clean Cache Route */

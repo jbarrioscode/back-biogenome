@@ -13,30 +13,27 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->string('firstName', 60);
-            $table->string('middleName', 60)->nullable();
-            $table->string('lastName', 60);
-            $table->string('surName', 60)->nullable();
-            $table->string('username', 20)->unique();
-            $table->string('document', 25)->unique();
+            $table->string('firstName');
+            $table->string('middleName')->nullable();
+            $table->string('lastName');
+            $table->string('surName')->nullable();
+            $table->string('username')->unique();
+            $table->unsignedBigInteger('document_type_id')->nullable(); // Foreign Key to Document Types Table
+            $table->string('document')->unique();
             $table->string('phone')->nullable();
             $table->string('address')->nullable();
-
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->boolean('status')->default(true);
+            $table->date('passwordExpirationDate');
+            $table->unsignedBigInteger('user_id')->nullable();
 
-            $table->boolean('userStatus')->default(1);
-            $table->date('passwordExpirationDate')->nullable();
-
-            /** Foreign Key Fields */
-            $table->unsignedBigInteger('doc_type_id');
-            $table->unsignedBigInteger('user_id');
-
-            /** Foreign Key References */
-            $table->foreign('doc_type_id')->references('id')->on('doc_types');
+            /* Foreign Key */
+            $table->foreign('document_type_id')->references('id')->on('document_types');
             $table->foreign('user_id')->references('id')->on('users');
 
+            $table->softDeletes();
             $table->rememberToken();
             $table->timestamps();
         });

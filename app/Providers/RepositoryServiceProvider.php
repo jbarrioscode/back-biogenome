@@ -2,18 +2,20 @@
 
 namespace App\Providers;
 
+use App\Repositories\Admin\DocumentType\DocumentTypeRepository;
+use App\Repositories\Admin\DocumentType\DocumentTypeRepositoryInterface;
+use App\Repositories\Admin\Permission\PermissionRepository;
+use App\Repositories\Admin\Permission\PermissionRepositoryInterface;
+use App\Repositories\Admin\Role\RoleRepository;
+use App\Repositories\Admin\Role\RoleRepositoryInterface;
+use App\Repositories\Admin\User\UserRepository;
+use App\Repositories\Admin\User\UserRepositoryInterface;
 use App\Repositories\Paciente\PacienteRepository;
 use App\Repositories\Paciente\PacienteRepositoryInterface;
-use App\Repositories\Permission\Interfaces\PermissionRepositoryInterface;
-use App\Repositories\Permission\PermissionRepository;
-use App\Repositories\Role\Interfaces\RoleRepositoryInterface;
-use App\Repositories\Role\RoleRepository;
 use App\Repositories\TomaMuestrasInv\Encuesta\EncuestaInv\EncuestaInvRepository;
 use App\Repositories\TomaMuestrasInv\Encuesta\EncuestaInv\EncuestaInvRepositoryInterface;
 use App\Repositories\TomaMuestrasInv\Encuesta\SedesTomaMuestra\SedesTomaMuestraRepository;
 use App\Repositories\TomaMuestrasInv\Encuesta\SedesTomaMuestra\SedesTomaMuestraRepositoryInterface;
-use App\Repositories\User\Interfaces\UserRepositoryInterface;
-use App\Repositories\User\UserRepository;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 
 class RepositoryServiceProvider extends ServiceProvider
@@ -25,7 +27,14 @@ class RepositoryServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        /*
+         * Authentication
+         */
+        $this->app->bind(
+            DocumentTypeRepositoryInterface::class,
+            DocumentTypeRepository::class
+        );
+
         $this->app->bind(
             UserRepositoryInterface::class,
             UserRepository::class
@@ -40,6 +49,10 @@ class RepositoryServiceProvider extends ServiceProvider
             RoleRepositoryInterface::class,
             RoleRepository::class
         );
+        /*
+         * End Authentication
+         */
+
         $this->app->bind(
             PacienteRepositoryInterface::class,
             PacienteRepository::class

@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Repositories\Role\Interfaces;
+namespace App\Repositories\Admin\Role;
 
-use App\Http\Requests\RoleRequest;
+use App\Http\Requests\Admin\Role\RoleRequest;
 use Illuminate\Http\Request;
 
 interface RoleRepositoryInterface
