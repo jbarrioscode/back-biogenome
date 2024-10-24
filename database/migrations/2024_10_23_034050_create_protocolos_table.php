@@ -11,11 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('paises', function (Blueprint $table) {
+        Schema::create('protocolos', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
             $table->softDeletes();
-            $table->string('name');
+            $table->string('nombre');
+            $table->string('descripcion')->nullable();
+            $table->unsignedBigInteger('tipo_estudio_id');
+            $table->foreign('tipo_estudio_id')->references('id')->on('minv_tipo_estudios');
         });
     }
 
@@ -24,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('paises');
+        Schema::dropIfExists('protocolos');
     }
 };

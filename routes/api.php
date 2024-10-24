@@ -5,12 +5,14 @@ use App\Http\Controllers\Api\v1\Admin\DocumentTypes\DocumentTypesController;
 use App\Http\Controllers\Api\v1\Admin\Permissions\PermissionsController;
 use App\Http\Controllers\Api\v1\Admin\Roles\RolesController;
 use App\Http\Controllers\Api\v1\Admin\Users\UsersController;
-use App\Http\Controllers\Api\v1\TomaMuestrasInv\Paciente\PacienteController;
-use App\Http\Controllers\Api\v1\TomaMuestrasInv\Encuentas\SedesTomaMuestraController;
 use App\Http\Controllers\Api\v1\TomaMuestrasInv\Encuentas\EncuestaController;
+use App\Http\Controllers\Api\v1\TomaMuestrasInv\Muestras\SedesTomaMuestraController;
+use App\Http\Controllers\Api\v1\TomaMuestrasInv\Paciente\PacienteController;
+use App\Http\Controllers\Api\v1\TomaMuestrasInv\Muestras\MuestraController;
+use App\Http\Controllers\Api\v1\TomaMuestrasInv\Muestras\ProtocoloController;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,6 +30,7 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/user', function (Request 
 
 /** App Routes */
 Route::prefix('/v1')->group(function () {
+
 
     Route::middleware(['auth', 'verified'])->group(function () {
 
@@ -54,11 +57,30 @@ Route::prefix('/v1')->group(function () {
         Route::get('document-types', [DocumentTypesController::class, 'getDocumentTypeRepository']);
 
         /*--------------------------------------------------------------------------------*/
+        //#####################################################################################
+        /*--------------------------------------------------------------------------------*/
 
         /* PACIENTE  */
 
+
         Route::post('/patient/post/createpatient', [PacienteController::class, 'createPatient']);
         Route::post('/patient/post/patientinformedconsent', [PacienteController::class, 'patientInformedConsent']);
+
+        /*--------------------------------------------------------------------------------*/
+        //#####################################################################################
+        /*--------------------------------------------------------------------------------*/
+
+        /* MUESTRAS  */
+
+        Route::get('/muestra/get/tipoestudio', [MuestraController::class, 'obtenerTipoEstudio']);
+
+        /*--------------------------------------------------------------------------------*/
+        //#####################################################################################
+        /*--------------------------------------------------------------------------------*/
+
+        /* PROTOCOLO  */
+
+        Route::get('/muestra/get/protocolosactivos', [ProtocoloController::class, 'obtenerProtocolosActivos']);
 
 
         /*--------------------------------------------------------------------------------*/

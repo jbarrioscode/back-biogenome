@@ -12,10 +12,14 @@ use App\Repositories\Admin\User\UserRepository;
 use App\Repositories\Admin\User\UserRepositoryInterface;
 use App\Repositories\Paciente\PacienteRepository;
 use App\Repositories\Paciente\PacienteRepositoryInterface;
-use App\Repositories\TomaMuestrasInv\Encuesta\EncuestaInv\EncuestaInvRepository;
-use App\Repositories\TomaMuestrasInv\Encuesta\EncuestaInv\EncuestaInvRepositoryInterface;
-use App\Repositories\TomaMuestrasInv\Encuesta\SedesTomaMuestra\SedesTomaMuestraRepository;
-use App\Repositories\TomaMuestrasInv\Encuesta\SedesTomaMuestra\SedesTomaMuestraRepositoryInterface;
+use App\Repositories\TomaMuestrasInv\EncuestaInv\EncuestaInvRepository;
+use App\Repositories\TomaMuestrasInv\EncuestaInv\EncuestaInvRepositoryInterface;
+use App\Repositories\TomaMuestrasInv\Muestra\MuestraRepository;
+use App\Repositories\TomaMuestrasInv\Muestra\MuestraRepositoryInterface;
+use App\Repositories\TomaMuestrasInv\Protocolos\ProtocoloRepository;
+use App\Repositories\TomaMuestrasInv\Protocolos\ProtocoloRepositoryInterface;
+use App\Repositories\TomaMuestrasInv\SedesTomaMuestra\SedesTomaMuestraRepository;
+use App\Repositories\TomaMuestrasInv\SedesTomaMuestra\SedesTomaMuestraRepositoryInterface;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 
 class RepositoryServiceProvider extends ServiceProvider
@@ -62,8 +66,16 @@ class RepositoryServiceProvider extends ServiceProvider
             EncuestaInvRepository::class
         );
         $this->app->bind(
+            MuestraRepositoryInterface::class,
+            MuestraRepository::class
+        );
+        $this->app->bind(
             SedesTomaMuestraRepositoryInterface::class,
             SedesTomaMuestraRepository::class
+        );
+        $this->app->bind(
+            ProtocoloRepositoryInterface::class,
+            ProtocoloRepository::class
         );
     }
 }
