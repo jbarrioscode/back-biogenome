@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Repositories\TomaMuestrasInv\Encuesta\SedesTomaMuestra;
+namespace App\Repositories\TomaMuestrasInv\SedesTomaMuestra;
 
 use App\Models\TomaMuestrasInv\Muestras\SedesTomaMuestra;
 use App\Traits\AuthenticationTrait;

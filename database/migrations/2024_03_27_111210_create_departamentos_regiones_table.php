@@ -17,7 +17,7 @@ return new class extends Migration
             $table->softDeletes();
             $table->string('name');
             $table->unsignedBigInteger('pais_id');
-            $table->foreign('pais_id')->references('id')->on('paises');
+            $table->foreign('pais_id')->references('id')->on('countries');
         });
     }
 
