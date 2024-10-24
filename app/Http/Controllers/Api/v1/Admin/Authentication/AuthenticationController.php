@@ -5,12 +5,13 @@ namespace App\Http\Controllers\Api\v1\Admin\Authentication;
 use App\Actions\Fortify\CreateNewUser;
 use App\Http\Controllers\Controller;
 use App\Traits\AuthenticationTrait;
+use App\Traits\RequestResponseFormatTrait;
 use Illuminate\Http\Request;
 
 class AuthenticationController extends Controller
 {
     //
-    use AuthenticationTrait;
+    use RequestResponseFormatTrait;
 
     public function register(Request $request)
     {
