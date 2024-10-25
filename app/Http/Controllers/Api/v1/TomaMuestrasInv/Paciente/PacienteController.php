@@ -25,7 +25,17 @@ class PacienteController extends Controller
             throw $th;
         }
     }
-    
+    public function getAllPacientes(Request $request)
+    {
+        try {
+
+            return $this->pacienteRepository->getAllPacientes($request);
+
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+    }
+
     public function patientInformedConsent(Request $request)
     {
         try {

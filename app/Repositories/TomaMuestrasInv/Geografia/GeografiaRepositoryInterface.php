@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 
 interface GeografiaRepositoryInterface
 {
-public function getSedesTomaMuestra(Request $request);
+    public function getSedesTomaMuestra(Request $request);
 
     public function getPais(Request $request);
 

@@ -77,16 +77,18 @@ Route::prefix('/v1')->group(function () {
         /* PACIENTE  */
 
 
-        Route::post('/patient/post/createpatient', [PacienteController::class, 'createPatient']);
-        Route::post('/patient/post/patientinformedconsent', [PacienteController::class, 'patientInformedConsent']);
+        Route::post('/patient/post/create-patient', [PacienteController::class, 'createPatient']);
+        Route::post('/patient/post/patient-informed-consent', [PacienteController::class, 'patientInformedConsent']);
+        Route::get('/patient/get/todos-pacientes', [PacienteController::class, 'getAllPacientes']);
 
-        /*--------------------------------------------------------------------------------*/
+
+    /*--------------------------------------------------------------------------------*/
         //#####################################################################################
         /*--------------------------------------------------------------------------------*/
 
         /* MUESTRAS  */
 
-        Route::get('/muestra/get/tipoestudio', [MuestraController::class, 'obtenerTipoEstudio']);
+        Route::get('/muestra/get/tipo-estudio', [MuestraController::class, 'obtenerTipoEstudio']);
 
         /*--------------------------------------------------------------------------------*/
         //#####################################################################################
@@ -95,18 +97,18 @@ Route::prefix('/v1')->group(function () {
         /* PROTOCOLO  */
 
         Route::get('/muestra/get/protocolo', [ProtocoloController::class, 'obtenerTodosProtocolos']);
-        Route::get('/muestra/get/protocolosactivos/{sede_id}', [ProtocoloController::class, 'obtenerProtocosActivosPorUserSede']);
+        Route::get('/muestra/get/protocolos-activos/{sede_id}', [ProtocoloController::class, 'obtenerProtocosActivosPorUserSede']);
 
 
         /*--------------------------------------------------------------------------------*/
         /* SEDES DE TOMA DE MUESTRAS */
 
-        Route::get('/sedesmuestras/get/sedestomademuestras', [GeografiaController::class, 'getSedesTomaMuestra']);
+        Route::get('/sedesmuestras/get/sedes-toma-de-muestras', [GeografiaController::class, 'getSedesTomaMuestra']);
 
         /*--------------------------------------------------------------------------------*/
         /* ENCUESTA */
 
-        Route::get('/encuesta/get/renderizarencuesta/{protocolo_id}', [EncuestaController::class, 'renderizarEncuesta']);
+        Route::get('/encuesta/get/renderizar-encuesta/{protocolo_id}', [EncuestaController::class, 'renderizarEncuesta']);
     //});
 
     /* ------------------------------------------------------------------------------------

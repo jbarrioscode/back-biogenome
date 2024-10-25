@@ -8,6 +8,7 @@ use App\Models\TomaMuestrasInv\Paciente\Pacientes;
 use App\Traits\AuthenticationTrait;
 use App\Traits\RequestResponseFormatTrait;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
 
@@ -19,6 +20,9 @@ class PacienteRepository implements PacienteRepositoryInterface
     {
 
         try {
+            DB::beginTransaction();
+
+
             $rules = [
                 'tipo_doc' => 'required|string',
                 'numero_documento' => 'required|string|unique:pacientes',
@@ -69,8 +73,11 @@ class PacienteRepository implements PacienteRepositoryInterface
 
             if (!$paciente) return $this->error("Error al registrar paciente", 500, "");
 
+            DB::commit();
+
             return $this->success($paciente, 1, 'Paciente registrado correctamente', 201);
         } catch (\Throwable $th) {
+            DB::rollBack();
             throw $th;
         }
     }
@@ -105,5 +112,20 @@ class PacienteRepository implements PacienteRepositoryInterface
 
         return $this->success($consentimiento, 1, 'Consentimiento registrado correctamente', 201);
 
+    }
+
+    public function getAllPacientes(Request $request)
+    {
+        try {
+
+            $pacientes=Pacientes::all();
+
+            if (count($pacientes)==0) return $this->error("No se encontró pacientes", 204, []);
+
+            return $this->success($pacientes,count($pacientes),'ok',200);
+
+        }catch (\Throwable $th) {
+            throw $th;
+        }
     }
 }
