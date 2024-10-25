@@ -60,7 +60,8 @@ class PacienteRepository implements PacienteRepositoryInterface
                 'fecha_expedicion' => $request->fecha_expedicion,
                 'pais_residencia' => $request->pais_residencia,
                 'departamento_residencia' => $request->departamento_residencia,
-                'ciudad_residencia' => $request->ciudad_residencia
+                'ciudad_residencia' => $request->ciudad_residencia,
+                'user_id' => \auth()->user()->id
             ]);
 
             if (!$paciente) return $this->error("Error al registrar paciente", 500, "");
