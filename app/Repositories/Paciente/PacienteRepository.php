@@ -61,6 +61,9 @@ class PacienteRepository implements PacienteRepositoryInterface
                 'pais_residencia' => $request->pais_residencia,
                 'departamento_residencia' => $request->departamento_residencia,
                 'ciudad_residencia' => $request->ciudad_residencia,
+                'genero' => $request->genero,
+                'grupo_sanguineo' => $request->grupo_sanguineo,
+                'email' => $request->email,
                 'user_id' => \auth()->user()->id
             ]);
 
