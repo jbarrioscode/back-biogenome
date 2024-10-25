@@ -6,7 +6,7 @@ use App\Http\Controllers\Api\v1\Admin\Permissions\PermissionsController;
 use App\Http\Controllers\Api\v1\Admin\Roles\RolesController;
 use App\Http\Controllers\Api\v1\Admin\Users\UsersController;
 use App\Http\Controllers\Api\v1\TomaMuestrasInv\Encuentas\EncuestaController;
-use App\Http\Controllers\Api\v1\TomaMuestrasInv\Muestras\SedesTomaMuestraController;
+use App\Http\Controllers\Api\v1\TomaMuestrasInv\Muestras\GeografiaController;
 use App\Http\Controllers\Api\v1\TomaMuestrasInv\Paciente\PacienteController;
 use App\Http\Controllers\Api\v1\TomaMuestrasInv\Muestras\MuestraController;
 use App\Http\Controllers\Api\v1\TomaMuestrasInv\Muestras\ProtocoloController;
@@ -60,6 +60,20 @@ Route::prefix('/v1')->group(function () {
         //#####################################################################################
         /*--------------------------------------------------------------------------------*/
 
+        /* PAISES - DEPARTAMENTOS - CIUDADES/MUNICIPIOS  */
+
+        Route::get('geografia/getpais', [GeografiaController::class, 'getPais']);
+        Route::get('geografia/getdepartamento/{pais_id}', [GeografiaController::class, 'getDepartamento']);
+        Route::get('geografia/getciudad/{departamento_id}', [GeografiaController::class, 'getCiudad']);
+        Route::get('geografia/getciudadforpaisid/{pais_id}', [GeografiaController::class, 'getCiudadesForPaisId']);
+
+        Route::get('geografia/getallciudad', [GeografiaController::class, 'getAllCiudad']);
+        Route::get('geografia/getalldepartamento', [GeografiaController::class, 'getAllDepartamento']);
+
+        /*--------------------------------------------------------------------------------*/
+        //#####################################################################################
+        /*--------------------------------------------------------------------------------*/
+
         /* PACIENTE  */
 
 
@@ -87,7 +101,7 @@ Route::prefix('/v1')->group(function () {
         /*--------------------------------------------------------------------------------*/
         /* SEDES DE TOMA DE MUESTRAS */
 
-        Route::get('/sedesmuestras/get/sedestomademuestras', [SedesTomaMuestraController::class, 'getSedesTomaMuestra']);
+        Route::get('/sedesmuestras/get/sedestomademuestras', [GeografiaController::class, 'getSedesTomaMuestra']);
 
         /*--------------------------------------------------------------------------------*/
         /* ENCUESTA */

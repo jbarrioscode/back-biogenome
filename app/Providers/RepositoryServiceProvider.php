@@ -18,8 +18,8 @@ use App\Repositories\TomaMuestrasInv\Muestra\MuestraRepository;
 use App\Repositories\TomaMuestrasInv\Muestra\MuestraRepositoryInterface;
 use App\Repositories\TomaMuestrasInv\Protocolos\ProtocoloRepository;
 use App\Repositories\TomaMuestrasInv\Protocolos\ProtocoloRepositoryInterface;
-use App\Repositories\TomaMuestrasInv\SedesTomaMuestra\SedesTomaMuestraRepository;
-use App\Repositories\TomaMuestrasInv\SedesTomaMuestra\SedesTomaMuestraRepositoryInterface;
+use App\Repositories\TomaMuestrasInv\Geografia\GeografiaRepository;
+use App\Repositories\TomaMuestrasInv\Geografia\GeografiaRepositoryInterface;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 
 class RepositoryServiceProvider extends ServiceProvider
@@ -70,8 +70,8 @@ class RepositoryServiceProvider extends ServiceProvider
             MuestraRepository::class
         );
         $this->app->bind(
-            SedesTomaMuestraRepositoryInterface::class,
-            SedesTomaMuestraRepository::class
+            GeografiaRepositoryInterface::class,
+            GeografiaRepository::class
         );
         $this->app->bind(
             ProtocoloRepositoryInterface::class,
