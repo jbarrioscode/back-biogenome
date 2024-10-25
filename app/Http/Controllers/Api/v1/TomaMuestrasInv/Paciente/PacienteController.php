@@ -25,6 +25,7 @@ class PacienteController extends Controller
             throw $th;
         }
     }
+    
     public function patientInformedConsent(Request $request)
     {
         try {

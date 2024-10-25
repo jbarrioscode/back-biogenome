@@ -79,7 +79,8 @@ Route::prefix('/v1')->group(function () {
 
         /* PROTOCOLO  */
 
-        Route::get('/muestra/get/protocolosactivos', [ProtocoloController::class, 'obtenerProtocolosActivos']);
+        Route::get('/muestra/get/protocolo', [ProtocoloController::class, 'obtenerTodosProtocolos']);
+        Route::get('/muestra/get/protocolosactivos/{sede_id}', [ProtocoloController::class, 'obtenerProtocosActivosPorUserSede']);
 
 
         /*--------------------------------------------------------------------------------*/

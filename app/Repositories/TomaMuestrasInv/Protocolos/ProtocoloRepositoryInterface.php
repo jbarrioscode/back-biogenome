@@ -6,5 +6,7 @@ use Illuminate\Http\Request;
 
 interface ProtocoloRepositoryInterface
 {
-    public function obtenerProtocolosActivos(Request $request);
+    public function obtenerTodosProtocolos(Request $request);
+    public function obtenerProtocosActivosPorUserSede(Request $request,$sede_id);
+
 }

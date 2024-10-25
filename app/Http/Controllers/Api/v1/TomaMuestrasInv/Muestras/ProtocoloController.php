@@ -15,14 +15,27 @@ class ProtocoloController extends Controller
         $this->protocolo = $protocolo;
     }
 
-    public function obtenerProtocolosActivos(Request $request)
+    public function obtenerTodosProtocolos(Request $request)
     {
         try {
 
-            return $this->protocolo->obtenerProtocolosActivos($request);
+            return $this->protocolo->obtenerTodosProtocolos($request);
 
         } catch (\Throwable $th) {
             throw $th;
         }
     }
+
+    public function obtenerProtocosActivosPorUserSede(Request $request,$sede_id)
+    {
+        try {
+
+            return $this->protocolo->obtenerProtocosActivosPorUserSede($request,$sede_id);
+
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+    }
+
+
 }
