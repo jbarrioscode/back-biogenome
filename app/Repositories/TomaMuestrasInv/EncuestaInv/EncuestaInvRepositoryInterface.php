@@ -6,6 +6,6 @@ use Illuminate\Http\Request;
 
 interface EncuestaInvRepositoryInterface
 {
-public function crearEncuesta(Request $request);
+public function renderizarEncuesta(Request $request,$protocolo_id);
 
 }

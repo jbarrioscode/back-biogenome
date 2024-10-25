@@ -28,6 +28,9 @@ return new class extends Migration
             $table->string('pais_residencia')->nullable();
             $table->string('departamento_residencia')->nullable();
             $table->string('ciudad_residencia')->nullable();
+            $table->string('genero')->nullable();
+            $table->string('grupo_sanguineo')->nullable();
+            $table->string('email')->nullable();
 
         });
     }

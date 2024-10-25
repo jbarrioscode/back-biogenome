@@ -15,11 +15,11 @@ class EncuestaController extends Controller
         $this->encuestaRepository = $encuestaRepository;
     }
 
-    public function crearEncuesta(Request $request)
+    public function renderizarEncuesta(Request $request,$protocolo_id)
     {
         try {
 
-            return $this->encuestaRepository->crearEncuesta($request);
+            return $this->encuestaRepository->renderizarEncuesta($request,$protocolo_id);
 
         } catch (\Throwable $th) {
             throw $th;

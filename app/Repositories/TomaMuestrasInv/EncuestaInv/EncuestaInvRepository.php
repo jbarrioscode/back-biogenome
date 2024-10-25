@@ -7,19 +7,17 @@ use Illuminate\Support\Facades\DB;
 
 class EncuestaInvRepository implements EncuestaInvRepositoryInterface
 {
-    public function crearEncuesta(Request $request)
+    public function renderizarEncuesta(Request $request,$protocolo_id)
     {
 
         try {
-            DB::beginTransaction();
+            //DB::beginTransaction();
 
-            //SE CREA EL FORMULARIO Y LUEGO SE GUARDA LOS DETALLES
+            return $protocolo_id;
 
-
-
-            DB::commit();
+            //DB::commit();
         } catch (\Throwable $th) {
-            DB::rollBack();
+            //DB::rollBack();
             throw $th;
         }
     }

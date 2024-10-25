@@ -32,7 +32,7 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/user', function (Request 
 Route::prefix('/v1')->group(function () {
 
 
-    Route::middleware(['auth', 'verified'])->group(function () {
+    //Route::middleware(['auth', 'verified'])->group(function () {
 
         /* ADMINISTRADOR*/
         /** Routes For User Management  */
@@ -92,8 +92,8 @@ Route::prefix('/v1')->group(function () {
         /*--------------------------------------------------------------------------------*/
         /* ENCUESTA */
 
-        Route::get('/encuesta/post/crearEncuesta', [EncuestaController::class, '']);
-    });
+        Route::get('/encuesta/get/renderizarencuesta/{protocolo_id}', [EncuestaController::class, 'renderizarEncuesta']);
+    //});
 
     /* ------------------------------------------------------------------------------------
     /** Clean Cache Route */
