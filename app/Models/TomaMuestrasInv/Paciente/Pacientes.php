@@ -28,7 +28,8 @@ class Pacientes extends Model
         'telefono_celular',
         'genero',
         'grupo_sanguineo',
-        'email'
+        'email,',
+        'user_id'
     ];
 
 }

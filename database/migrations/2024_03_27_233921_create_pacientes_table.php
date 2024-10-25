@@ -31,6 +31,8 @@ return new class extends Migration
             $table->string('genero')->nullable();
             $table->string('grupo_sanguineo')->nullable();
             $table->string('email')->nullable();
+            $table->unsignedBigInteger('user_id');
+            $table->foreign('user_id')->references('id')->on('users');
 
         });
     }
