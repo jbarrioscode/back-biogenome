@@ -7,11 +7,13 @@ use App\Models\TomaMuestrasInv\Encuesta\Preguntas;
 use App\Models\TomaMuestrasInv\Encuesta\PropiedadesPreguntas;
 use App\Models\TomaMuestrasInv\Encuesta\PropiedadesSubPreguntas;
 use App\Models\TomaMuestrasInv\Encuesta\SubPreguntas;
+use App\Traits\RequestResponseFormatTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class EncuestaInvRepository implements EncuestaInvRepositoryInterface
 {
+    use RequestResponseFormatTrait;
     public function renderizarEncuesta(Request $request,$protocolo_id)
     {
 
@@ -20,6 +22,8 @@ class EncuestaInvRepository implements EncuestaInvRepositoryInterface
 
             $grupoPreguntas=GrupoPregunta::where('protocolo_id',$protocolo_id)
                 ->orderBy('orden_grupo','asc')->get();
+
+            if (count($grupoPreguntas)==0) return $this->error("No se encontró preguntas", 204, []);
 
 
             foreach ($grupoPreguntas as $gru){
@@ -71,7 +75,8 @@ class EncuestaInvRepository implements EncuestaInvRepositoryInterface
 
 
             }
-            return $grupoPreguntas;
+
+            return $this->success($grupoPreguntas,count($grupoPreguntas),'ok',200);
 
             //DB::commit();
         } catch (\Throwable $th) {
