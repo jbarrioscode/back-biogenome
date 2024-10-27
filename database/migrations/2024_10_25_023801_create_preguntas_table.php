@@ -16,13 +16,11 @@ return new class extends Migration
             $table->timestamps();
             $table->softDeletes();
             $table->string('nombre');
-            $table->string('descripcion')->nullable();
+            $table->text('descripcion')->nullable();
             $table->unsignedBigInteger('tipo_de_preguntas_id');
             $table->foreign('tipo_de_preguntas_id')->references('id')->on('tipo_de_preguntas');
             $table->unsignedBigInteger('grupo_pregunta_id');
             $table->foreign('grupo_pregunta_id')->references('id')->on('grupo_preguntas');
-            $table->unsignedBigInteger('protocolo_id');
-            $table->foreign('protocolo_id')->references('id')->on('protocolos');
             $table->integer('orden_pregunta');
 
 

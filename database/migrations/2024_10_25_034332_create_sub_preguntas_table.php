@@ -16,7 +16,7 @@ return new class extends Migration
             $table->timestamps();
             $table->softDeletes();
             $table->string('nombre');
-            $table->string('descripcion')->nullable();
+            $table->text('descripcion')->nullable();
             $table->unsignedBigInteger('tipo_de_preguntas_id');
             $table->foreign('tipo_de_preguntas_id')->references('id')->on('tipo_de_preguntas');
             $table->unsignedBigInteger('pregunta_id');

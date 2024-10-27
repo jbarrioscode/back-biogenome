@@ -6,18 +6,16 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Preguntas extends Model
+class PropiedadesSubPreguntas extends Model
 {
     use HasFactory;
     use SoftDeletes;
 
-    protected $table = 'preguntas';
+    protected $table = 'propiedades_sub_preguntas';
 
     protected $fillable = [
-        'nombre',
-        'descripcion',
-        'tipo_de_preguntas_id',
-        'grupo_pregunta_id',
-        'orden_pregunta'
+        'parametro',
+        'propiedad',
+        'sub_pregunta_id'
     ];
 }

@@ -17,6 +17,9 @@ return new class extends Migration
             $table->softDeletes();
             $table->string('nombre');
             $table->string('descripcion')->nullable();
+            $table->integer('orden_grupo');
+            $table->unsignedBigInteger('protocolo_id');
+            $table->foreign('protocolo_id')->references('id')->on('protocolos');
         });
     }
 
