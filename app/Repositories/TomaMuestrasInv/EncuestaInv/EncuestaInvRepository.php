@@ -24,7 +24,7 @@ class EncuestaInvRepository implements EncuestaInvRepositoryInterface
 
             foreach ($grupoPreguntas as $gru){
 
-                $preguntas= Preguntas::select('preguntas.nombre as nombre_pregunta','preguntas.id as id_pregunta'
+                $preguntas= Preguntas::select('preguntas.nombre as nombre_pregunta','preguntas.descripcion as descripcion_pregunta','preguntas.id as id_pregunta'
                     ,'tipo_de_preguntas.id as id_tipo_pregunta','tipo_de_preguntas.nombre as tipo_pregunta')
                     ->where('preguntas.grupo_pregunta_id',$gru->id)
                     ->leftJoin('tipo_de_preguntas', 'tipo_de_preguntas.id', '=', 'preguntas.tipo_de_preguntas_id')
