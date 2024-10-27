@@ -82,7 +82,6 @@ Route::prefix('/v1')->group(function () {
         Route::get('/patient/get/todos-pacientes', [PacienteController::class, 'getAllPacientes']);
 
 
-
         /*--------------------------------------------------------------------------------*/
         //#####################################################################################
         /*--------------------------------------------------------------------------------*/
@@ -90,8 +89,10 @@ Route::prefix('/v1')->group(function () {
         /* MUESTRAS  */
 
         Route::get('/muestra/get/tipo-estudio', [MuestraController::class, 'obtenerTipoEstudio']);
+        Route::post('/muestra/post/guardarmuestra', [MuestraController::class, 'guardarMuestra']);
 
-        /*--------------------------------------------------------------------------------*/
+
+    /*--------------------------------------------------------------------------------*/
         //#####################################################################################
         /*--------------------------------------------------------------------------------*/
 
@@ -110,6 +111,11 @@ Route::prefix('/v1')->group(function () {
         /* ENCUESTA */
 
         Route::get('/encuesta/get/renderizar-encuesta/{protocolo_id}', [EncuestaController::class, 'renderizarEncuesta']);
+
+
+
+
+    /*  */
     //});
 
     /* ------------------------------------------------------------------------------------

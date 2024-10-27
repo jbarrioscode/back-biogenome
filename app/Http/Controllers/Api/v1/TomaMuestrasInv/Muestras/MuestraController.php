@@ -25,4 +25,14 @@ class MuestraController extends Controller
             throw $th;
         }
     }
+    public function guardarMuestra(Request $request)
+    {
+        try {
+
+            return $this->muestraRepository->guardarMuestra($request);
+
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+    }
 }
