@@ -18,7 +18,7 @@ class EncuestaInvRepository implements EncuestaInvRepositoryInterface
         try {
             //DB::beginTransaction();
 
-            $grupoPreguntas=GrupoPregunta::where('protocolo_id','1')
+            $grupoPreguntas=GrupoPregunta::where('protocolo_id',$protocolo_id)
                 ->orderBy('orden_grupo','asc')->get();
 
 
