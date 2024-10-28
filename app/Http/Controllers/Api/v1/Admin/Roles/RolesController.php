@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Api\v1\Admin\Roles;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\RoleRequest;
-use App\Repositories\Role\Interfaces\RoleRepositoryInterface;
+use App\Http\Requests\Admin\Role\RoleRequest;
+use App\Repositories\Admin\Role\RoleRepositoryInterface;
 use Illuminate\Http\Request;
 
 class RolesController extends Controller

@@ -18,7 +18,7 @@ class DocumentType extends Model
         'status',
     ];
 
-    protected function user()
+    public function user()
     {
         return $this->hasOne(User::class);
     }

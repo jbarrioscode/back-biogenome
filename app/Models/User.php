@@ -48,9 +48,9 @@ class User extends Authenticatable
         ];
     }
 
-    protected function doctype()
+    public function doctype()
     {
-        return $this->belongsTo(DocumentType::class);
+        return $this->belongsTo(DocumentType::class, 'document_type_id', 'id');
     }
 
     protected $with = [

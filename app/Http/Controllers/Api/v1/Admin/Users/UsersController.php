@@ -3,14 +3,14 @@
 namespace App\Http\Controllers\Api\v1\Admin\Users;
 
 use App\Http\Controllers\Controller;
-use App\Repositories\User\Interfaces\UserRepositoryInterface;
+use App\Repositories\Admin\User\UserRepositoryInterface;
 use Illuminate\Http\Request;
 
 class UsersController extends Controller
 {
     //
     /** Initializing variables */
-    private $userRepository;
+    private UserRepositoryInterface $userRepository;
 
     /** Using Authentication Middleware */
     public function __construct(UserRepositoryInterface $userRepository)

@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use Laravel\Fortify\Contracts\CreatesNewUsers;
+use Spatie\Permission\Models\Role;
 
 class CreateNewUser implements CreatesNewUsers
 {
@@ -26,7 +27,7 @@ class CreateNewUser implements CreatesNewUsers
             'middleName' => ['string', 'max:60'],
             'lastName' => ['required', 'string', 'max:60'],
             'surName' => ['string', 'max:60'],
-            'username' => ['required', 'string', 'max:20', Rule::unique(User::class)],
+            //'username' => ['required', 'string', 'max:20', Rule::unique(User::class)],
             'document_type_id' => ['required'],
             'document' => ['required', 'max:25'],
             'phone' => ['max:13'],
@@ -58,9 +59,16 @@ class CreateNewUser implements CreatesNewUsers
             'email_verified_at' => Carbon::now(),
         ]);
 
-        $user->syncRoles($input['role_id']);
+
+        $user->assignRole($this->findRole($input['role_id']));
 
         return $user;
+    }
+
+    private function findRole($role)
+    {
+        $role = Role::findById($role);
+        return $role->name;
     }
 
     private function setUsernameAttribute($first_name, $last_name): string

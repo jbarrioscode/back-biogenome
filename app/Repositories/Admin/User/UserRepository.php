@@ -20,13 +20,13 @@ class UserRepository implements UserRepositoryInterface
     public function all(): JsonResponse
     {
         $users = User::with(['doctype', 'roles'])
-            ->where('users.userStatus', 1)
+            ->where('users.status', 1)
             ->orderBy('users.firstName', 'ASC')
             ->get();
 
-        if (!$users) return $this->error("We could not Find Users", 204);
+        if (!$users) return $this->error("No se encontro ningun usuario", 204);
 
-        return $this->success($users, count($users), "Users Returned!", 200);
+        return $this->success($users, count($users), "Usuarios retornados!", 200);
     }
 
     public function getUserById(User $user)
