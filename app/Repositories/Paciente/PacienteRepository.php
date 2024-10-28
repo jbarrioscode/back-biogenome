@@ -85,15 +85,13 @@ class PacienteRepository implements PacienteRepositoryInterface
     public function patientInformedConsent(Request $request)
     {
         $rules = [
-            'tipo_consentimiento_id' => 'required|string',
-            'tipo_estudio_id' => 'required|string',
+            'protocolo_id' => 'required|string',
             'paciente_id' => 'required|string',
             'firma' => 'required|string',
         ];
 
         $messages = [
-            'tipo_consentimiento_id.required' => 'El tipo de consentimiento es obligatorio.',
-            'tipo_estudio_id.required' => 'El ID del tipo de estudio está vacio.',
+            'protocolo_id.required' => 'El ID del protocolo está vacio.',
             'paciente_id.required' => 'El ID del paciente está vacio.',
             'firma.required' => 'Firma está vacio.',
         ];
@@ -104,8 +102,7 @@ class PacienteRepository implements PacienteRepositoryInterface
         }
 
         $consentimiento = ConsentimientoInformadoPaciente::create([
-            'tipo_consentimiento_id' => $request->tipo_consentimiento_id,
-            'tipo_estudio_id' => $request->tipo_estudio_id,
+            'protocolo_id' => $request->protocolo_id,
             'paciente_id' => $request->paciente_id,
             'firma' => $request->firma,
         ]);
