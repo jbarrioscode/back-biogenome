@@ -74,6 +74,14 @@ Route::prefix('/v1')->group(function () {
         //#####################################################################################
         /*--------------------------------------------------------------------------------*/
 
+        /*--------------------------------------------------------------------------------*/
+        /* SEDES DE TOMA DE MUESTRAS */
+
+        Route::get('/sedesmuestras/get/sedes-toma-de-muestras', [GeografiaController::class, 'getSedesTomaMuestra']);
+        Route::post('/sedesmuestras/post/sedes-toma-de-muestras', [GeografiaController::class, 'crearSedeTomaMuestra']);
+
+
+
         /* PACIENTE  */
 
 
@@ -102,12 +110,8 @@ Route::prefix('/v1')->group(function () {
         Route::get('/muestra/get/protocolos-activos/{sede_id}', [ProtocoloController::class, 'obtenerProtocosActivosPorUserSede']);
 
 
-        /*--------------------------------------------------------------------------------*/
-        /* SEDES DE TOMA DE MUESTRAS */
 
-        Route::get('/sedesmuestras/get/sedes-toma-de-muestras', [GeografiaController::class, 'getSedesTomaMuestra']);
-
-        /*--------------------------------------------------------------------------------*/
+    /*--------------------------------------------------------------------------------*/
         /* ENCUESTA */
 
         Route::get('/encuesta/get/renderizar-encuesta/{protocolo_id}', [EncuestaController::class, 'renderizarEncuesta']);

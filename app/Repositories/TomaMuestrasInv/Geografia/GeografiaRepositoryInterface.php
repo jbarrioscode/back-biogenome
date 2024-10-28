@@ -8,6 +8,7 @@ interface GeografiaRepositoryInterface
 {
     public function getSedesTomaMuestra(Request $request);
 
+    public function crearSedeTomaMuestra(Request $request);
     public function getPais(Request $request);
 
     public function getDepartamento(Request $request, $pais_id);
