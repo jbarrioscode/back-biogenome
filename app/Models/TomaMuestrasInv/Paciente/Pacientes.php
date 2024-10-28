@@ -2,6 +2,8 @@
 
 namespace App\Models\TomaMuestrasInv\Paciente;
 
+use App\Models\TomaMuestrasInv\Muestras\FormularioMuestra;
+use App\Models\TomaMuestrasInv\Paciente\ConsentimientoInformadoPaciente;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -31,5 +33,7 @@ class Pacientes extends Model
         'email',
         'user_id'
     ];
+
+
 
 }

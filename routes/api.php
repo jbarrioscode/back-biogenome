@@ -81,7 +81,6 @@ Route::prefix('/v1')->group(function () {
         Route::post('/sedesmuestras/post/sedes-toma-de-muestras', [GeografiaController::class, 'crearSedeTomaMuestra']);
 
 
-
         /* PACIENTE  */
 
 

@@ -3,6 +3,8 @@
 namespace App\Repositories\Paciente;
 
 use App\Http\Controllers\Api\v1\Encrypt\EncryptEncuestaInvController;
+use App\Models\TomaMuestrasInv\Muestras\FormularioMuestra;
+use App\Models\TomaMuestrasInv\Muestras\Muestra;
 use App\Models\TomaMuestrasInv\Paciente\ConsentimientoInformadoPaciente;
 use App\Models\TomaMuestrasInv\Paciente\Pacientes;
 use App\Traits\AuthenticationTrait;
@@ -114,15 +116,63 @@ class PacienteRepository implements PacienteRepositoryInterface
     public function getAllPacientes(Request $request)
     {
         try {
+            $pacientes = Pacientes::select('pacientes.*',
+                'consentimiento_informado_pacientes.created_at as fecha_firma',
+                'protocolos.nombre as nombre_protocolo_firmado',
+                'protocolos.id as id_protocolo',
+                'muestras.created_at as fecha_muestra_tomada')
+                ->leftJoin('consentimiento_informado_pacientes', 'pacientes.id', '=', 'consentimiento_informado_pacientes.paciente_id')
+                ->leftJoin('protocolos', 'protocolos.id', '=', 'consentimiento_informado_pacientes.protocolo_id')
+                ->leftJoin('muestras', function ($join) {
+                    $join->on('pacientes.id', '=', 'muestras.paciente_id')
+                        ->on('protocolos.id', '=', 'muestras.protocolo_id');
+                })
+                ->get();
 
-            $pacientes=Pacientes::all();
+            $result = [];
+            foreach ($pacientes as $pa) {
+                // Crear un nuevo paciente si no existe en el resultado
+                if (!isset($result[$pa->id])) {
+                    $result[$pa->id] = [
+                        'id' => $pa->id,
+                        'created_at' => $pa->created_at,
+                        'tipo_doc' => $pa->tipo_doc,
+                        'numero_documento' => $pa->numero_documento,
+                        'primer_nombre' => $pa->primer_nombre,
+                        'segundo_nombre' => $pa->segundo_nombre,
+                        'primer_apellido' => $pa->primer_apellido,
+                        'segundo_apellido' => $pa->segundo_apellido,
+                        'fecha_nacimiento' => $pa->fecha_nacimiento,
+                        'fecha_expedicion' => $pa->fecha_expedicion,
+                        'telefono_celular' => $pa->telefono_celular,
+                        'pais_residencia' => $pa->pais_residencia,
+                        'departamento_residencia' => $pa->departamento_residencia,
+                        'ciudad_residencia' => $pa->ciudad_residencia,
+                        'genero' => $pa->genero,
+                        'grupo_sanguineo' => $pa->grupo_sanguineo,
+                        'email' => $pa->email,
+                        'protocolos' => []
+                    ];
+                }
 
-            if (count($pacientes)==0) return $this->error("No se encontró pacientes", 204, []);
+                if ($pa->nombre_protocolo_firmado) {
+                    $result[$pa->id]['protocolos'][] = [
+                        'fecha_firma' => $pa->fecha_firma,
+                        'nombre_protocolo_firmado' => $pa->nombre_protocolo_firmado,
+                        'id_protocolo' => $pa->id_protocolo,
+                        'muestra_tomada' => $pa->fecha_muestra_tomada
+                    ];
+                }
+            }
 
-            return $this->success($pacientes,count($pacientes),'ok',200);
+            $result = array_values($result);
 
-        }catch (\Throwable $th) {
+            if (count($result) == 0) return $this->error("No se encontró pacientes", 204, []);
+
+            return $this->success($result, count($result), 'ok', 200);
+        } catch (\Throwable $th) {
             throw $th;
         }
+
     }
 }
