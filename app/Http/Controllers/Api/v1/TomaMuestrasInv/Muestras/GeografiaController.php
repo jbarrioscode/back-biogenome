@@ -25,6 +25,16 @@ class GeografiaController extends Controller
             throw $th;
         }
     }
+    public function crearSedeTomaMuestra(Request $request)
+    {
+        try {
+
+            return $this->sedesTomaMuestraRepository->crearSedeTomaMuestra($request);
+
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+    }
     public function getPais(Request $request)
     {
         try {
