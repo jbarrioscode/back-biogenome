@@ -12,6 +12,7 @@ use App\Traits\RequestResponseFormatTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Database\Eloquent\Builder;
 
 
 class PacienteRepository implements PacienteRepositoryInterface
@@ -116,16 +117,24 @@ class PacienteRepository implements PacienteRepositoryInterface
     public function getAllPacientes(Request $request)
     {
         try {
+            // Obtén todos los pacientes y sus consentimientos y muestras
             $pacientes = Pacientes::select('pacientes.*',
                 'consentimiento_informado_pacientes.created_at as fecha_firma',
                 'protocolos.nombre as nombre_protocolo_firmado',
                 'protocolos.id as id_protocolo',
                 'muestras.created_at as fecha_muestra_tomada')
-                ->leftJoin('consentimiento_informado_pacientes', 'pacientes.id', '=', 'consentimiento_informado_pacientes.paciente_id')
-                ->leftJoin('protocolos', 'protocolos.id', '=', 'consentimiento_informado_pacientes.protocolo_id')
+                ->leftJoin('consentimiento_informado_pacientes', function ($join) {
+                    $join->on('pacientes.id', '=', 'consentimiento_informado_pacientes.paciente_id')
+                        ->whereNull('consentimiento_informado_pacientes.deleted_at'); // Solo registros no eliminados
+                })
+                ->leftJoin('protocolos', function ($join) {
+                    $join->on('protocolos.id', '=', 'consentimiento_informado_pacientes.protocolo_id')
+                        ->whereNull('protocolos.deleted_at'); // Solo registros no eliminados
+                })
                 ->leftJoin('muestras', function ($join) {
                     $join->on('pacientes.id', '=', 'muestras.paciente_id')
-                        ->on('protocolos.id', '=', 'muestras.protocolo_id');
+                        ->on('protocolos.id', '=', 'muestras.protocolo_id')
+                        ->whereNull('muestras.deleted_at'); // Solo registros no eliminados
                 })
                 ->get();
 
@@ -173,6 +182,7 @@ class PacienteRepository implements PacienteRepositoryInterface
         } catch (\Throwable $th) {
             throw $th;
         }
+
 
     }
 }
