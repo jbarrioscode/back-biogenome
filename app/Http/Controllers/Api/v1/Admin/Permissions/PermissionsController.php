@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Api\v1\Admin\Permissions;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\PermissionRequest;
-use App\Repositories\Permission\Interfaces\PermissionRepositoryInterface;
+use App\Http\Requests\Admin\Permission\PermissionRequest;
+use App\Repositories\Admin\Permission\PermissionRepositoryInterface;
 use Illuminate\Http\Request;
 
 class PermissionsController extends Controller
