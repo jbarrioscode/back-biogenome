@@ -24,10 +24,11 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+/*
 Route::middleware(['auth:sanctum', 'verified'])->get('/user', function (Request $request) {
     return $request->user();
 });
-
+*/
 /** App Routes */
 Route::prefix('/v1')->group(function () {
 
@@ -99,14 +100,18 @@ Route::prefix('/v1')->group(function () {
         Route::post('/muestra/post/guardarmuestra', [MuestraController::class, 'guardarMuestra']);
 
 
-    /*--------------------------------------------------------------------------------*/
+        /*--------------------------------------------------------------------------------*/
         //#####################################################################################
         /*--------------------------------------------------------------------------------*/
 
         /* PROTOCOLO  */
 
-        Route::get('/muestra/get/protocolo', [ProtocoloController::class, 'obtenerTodosProtocolos']);
-        Route::get('/muestra/get/protocolos-activos/{sede_id}', [ProtocoloController::class, 'obtenerProtocosActivosPorUserSede']);
+        Route::get('/protocolos/get/protocolo', [ProtocoloController::class, 'obtenerTodosProtocolos']);
+        Route::get('/protocolos/get/protocolos-activos/{sede_id}', [ProtocoloController::class, 'obtenerProtocosActivosPorUserSede']);
+        Route::post('/protocolos/post/crear-protocolos', [ProtocoloController::class, 'crearProtocolos']);
+        Route::delete('/protocolos/delete/protocolo/{id}', [ProtocoloController::class, 'eliminarProtocolo']);
+        Route::put('/protocolos/put/protocolo/{id}', [ProtocoloController::class, 'actualizarProtocolo']);
+
 
 
 

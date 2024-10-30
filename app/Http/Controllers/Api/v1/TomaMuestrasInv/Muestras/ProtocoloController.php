@@ -36,6 +36,36 @@ class ProtocoloController extends Controller
             throw $th;
         }
     }
+    public function crearProtocolos(Request $request)
+    {
+        try {
 
+            return $this->protocolo->crearProtocolos($request);
+
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+    }
+    public function eliminarProtocolo(Request $request,$protocolo_id)
+    {
+        try {
+
+            return $this->protocolo->eliminarProtocolo($request,$protocolo_id);
+
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+    }
+
+    public function actualizarProtocolo(Request $request,$protocolo_id)
+    {
+        try {
+
+            return $this->protocolo->actualizarProtocolo($request,$protocolo_id);
+
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+    }
 
 }

@@ -15,7 +15,7 @@ class ConsentimientoInformadoPaciente extends Model
     protected $table = 'consentimiento_informado_pacientes';
 
     protected $fillable = [
-        'protocolo_id',
+        'tipo_consentimiento_informado_id',
         'paciente_id',
         'firma'
     ];

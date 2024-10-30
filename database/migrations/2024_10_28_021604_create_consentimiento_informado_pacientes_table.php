@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id();
             $table->timestamps();
             $table->softDeletes();
-            $table->unsignedBigInteger('protocolo_id');
-            $table->foreign('protocolo_id')->references('id')->on('protocolos');
+            $table->unsignedBigInteger('tipo_consentimiento_informado_id');
+            $table->foreign('tipo_consentimiento_informado_id')->references('id')->on('tipo_consentimiento_informados');
             $table->unsignedBigInteger('paciente_id');
             $table->foreign('paciente_id')->references('id')->on('pacientes');
             $table->text('firma');
