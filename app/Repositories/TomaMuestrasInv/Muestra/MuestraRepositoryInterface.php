@@ -8,5 +8,9 @@ interface MuestraRepositoryInterface
 {
     public function obtenerTipoEstudio(Request $request);
     public function guardarMuestra(Request $request);
+    public function guardarInfoClinica(Request $request);
+
+
+
 
 }

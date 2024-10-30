@@ -100,4 +100,8 @@ class MuestraRepository implements MuestraRepositoryInterface
 
     }
 
+    public function guardarInfoClinica(Request $request)
+    {
+        // TODO: Implement guardarInfoClinica() method.
+    }
 }

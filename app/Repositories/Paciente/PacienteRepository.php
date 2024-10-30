@@ -141,26 +141,34 @@ class PacienteRepository implements PacienteRepositoryInterface
     public function getAllPacientes(Request $request)
     {
         try {
-            // Obtén todos los pacientes y sus consentimientos y muestras
+
             $pacientes = Pacientes::select('pacientes.*',
-                'consentimiento_informado_pacientes.created_at as fecha_firma',
-                'protocolos.nombre as nombre_protocolo_firmado',
+                'consentimiento_informado_pacientes.created_at as fecha_firma'
+                ,'protocolos.nombre as nombre_protocolo_firmado',
                 'protocolos.id as id_protocolo',
-                'muestras.created_at as fecha_muestra_tomada')
+                'muestras.created_at as fecha_muestra_tomada'
+                )
                 ->leftJoin('consentimiento_informado_pacientes', function ($join) {
                     $join->on('pacientes.id', '=', 'consentimiento_informado_pacientes.paciente_id')
-                        ->whereNull('consentimiento_informado_pacientes.deleted_at'); // Solo registros no eliminados
+                        ->whereNull('consentimiento_informado_pacientes.deleted_at');
+                })
+                ->leftJoin('tipo_consentimiento_informados', function ($join) {
+                    $join->on('tipo_consentimiento_informados.id', '=', 'consentimiento_informado_pacientes.tipo_consentimiento_informado_id')
+                        ->whereNull('tipo_consentimiento_informados.deleted_at');
                 })
                 ->leftJoin('protocolos', function ($join) {
-                    $join->on('protocolos.id', '=', 'consentimiento_informado_pacientes.protocolo_id')
-                        ->whereNull('protocolos.deleted_at'); // Solo registros no eliminados
+                    $join->on('protocolos.id', '=', 'tipo_consentimiento_informados.protocolo_id')
+                        ->whereNull('protocolos.deleted_at');
                 })
                 ->leftJoin('muestras', function ($join) {
                     $join->on('pacientes.id', '=', 'muestras.paciente_id')
                         ->on('protocolos.id', '=', 'muestras.protocolo_id')
-                        ->whereNull('muestras.deleted_at'); // Solo registros no eliminados
+                        ->whereNull('muestras.deleted_at');
                 })
+
                 ->get();
+
+
 
             $result = [];
             foreach ($pacientes as $pa) {
@@ -208,5 +216,10 @@ class PacienteRepository implements PacienteRepositoryInterface
         }
 
 
+    }
+
+    public function getConsentimientoPorProtocolo(Request $request)
+    {
+        // TODO: Implement getConsentimientoPorProtocolo() method.
     }
 }

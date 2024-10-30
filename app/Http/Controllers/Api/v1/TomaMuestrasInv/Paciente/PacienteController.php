@@ -46,4 +46,14 @@ class PacienteController extends Controller
             throw $th;
         }
     }
+    public function getConsentimientoPorProtocolo(Request $request)
+    {
+        try {
+
+            return $this->pacienteRepository->getConsentimientoPorProtocolo($request);
+
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+    }
 }
