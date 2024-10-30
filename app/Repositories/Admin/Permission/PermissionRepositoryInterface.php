@@ -8,5 +8,6 @@ interface PermissionRepositoryInterface
 {
     public function all();
     public function savePermission(PermissionRequest $request);
+    public function updatePermission(PermissionRequest $request, $permission_id);
     public function inactivatePermissionById($id = null);
 }
