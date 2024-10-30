@@ -25,33 +25,57 @@ class PacienteRepository implements PacienteRepositoryInterface
         try {
             DB::beginTransaction();
 
+            $validator = \Validator::make($request->all(), [
+                'tipo_doc' => [
+                    'required',
+                    'string',
+                ],
+                'numero_documento' => [
+                    'required',
+                    'string',
+                    'unique:pacientes,numero_documento',
+                ],
+                'primer_nombre' => [
+                    'required',
+                    'string',
+                ],
+                'primer_apellido' => [
+                    'required',
+                    'string',
+                ],
+                'segundo_apellido' => [
+                    'required',
+                    'string',
+                ],
+                'telefono_celular' => [
+                    'required',
+                    'string',
+                ],
+                'fecha_nacimiento' => [
+                    'required',
+                    'date',
+                ],
+                'fecha_expedicion' => [
+                    'required',
+                    'date',
+                ],
+            ], [
+                'tipo_doc.required' => 'El tipo de documento es obligatorio.',
+                'numero_documento.required' => 'El número de documento está vacío.',
+                'numero_documento.unique' => 'El paciente ya se encuentra registrado.',
+                'primer_nombre.required' => 'El primer nombre está vacío.',
+                'primer_apellido.required' => 'El primer apellido está vacío.',
+                'segundo_apellido.required' => 'El segundo apellido está vacío.',
+                'telefono_celular.required' => 'El teléfono celular está vacío.',
+                'fecha_nacimiento.required' => 'La fecha de nacimiento está vacía.',
+                'fecha_expedicion.required' => 'La fecha de expedición está vacía.',
+                'fecha_nacimiento.date' => 'La fecha de nacimiento no es válida.',
+                'fecha_expedicion.date' => 'La fecha de expedición no es válida.',]
+            );
 
-            $rules = [
-                'tipo_doc' => 'required|string',
-                'numero_documento' => 'required|string|unique:pacientes',
-                'primer_nombre' => 'required|string',
-                'primer_apellido' => 'required|string',
-                'segundo_apellido' => 'required|string',
-                'telefono_celular' => 'required|string',
-                'fecha_nacimiento' => 'required|string',
-                'fecha_expedicion' => 'required|string',
-            ];
 
-            $messages = [
-                'tipo_doc.required' => 'El nombre es obligatorio.',
-                'numero_documento.unique' => 'El numero de documento ya se encuentra registrado.',
-                'numero_documento.required' => 'Numero de documento esta vacio.',
-                'primer_nombre.required' => 'Primer nombre está vacio.',
-                'telefono_celular.required' => 'Telefono celular está vacio.',
-                'primer_apellido.required' => 'Primer apellido está vacio.',
-                'segundo_apellido.required' => 'Segundo apellido está vacio.',
-                'fecha_nacimiento.required' => 'fecha de nacimiento está vacio.',
-                'fecha_expedicion.required' => 'fecha de expedición está vacio.',
-            ];
-
-            $validator = Validator::make($request->all(), $rules, $messages);
             if ($validator->fails()) {
-                return $this->error($validator->errors(), 422, []);
+                return $this->error($validator->errors()->first(), 422, "");
             }
 
 
@@ -88,13 +112,13 @@ class PacienteRepository implements PacienteRepositoryInterface
     public function patientInformedConsent(Request $request)
     {
         $rules = [
-            'protocolo_id' => 'required|string',
+            'tipo_consentimiento_informado_id' => 'required|integer',
             'paciente_id' => 'required|string',
             'firma' => 'required|string',
         ];
 
         $messages = [
-            'protocolo_id.required' => 'El ID del protocolo está vacio.',
+            'tipo_consentimiento_informado_id.required' => 'El ID del consentimiento está vacio.',
             'paciente_id.required' => 'El ID del paciente está vacio.',
             'firma.required' => 'Firma está vacio.',
         ];
@@ -105,7 +129,7 @@ class PacienteRepository implements PacienteRepositoryInterface
         }
 
         $consentimiento = ConsentimientoInformadoPaciente::create([
-            'protocolo_id' => $request->protocolo_id,
+            'tipo_consentimiento_informado_id' => $request->tipo_consentimiento_informado_id,
             'paciente_id' => $request->paciente_id,
             'firma' => $request->firma,
         ]);

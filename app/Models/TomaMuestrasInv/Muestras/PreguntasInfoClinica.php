@@ -6,16 +6,14 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Protocolo extends Model
+class PreguntasInfoClinica extends Model
 {
-    use HasFactory;
-    use SoftDeletes;
+    use HasFactory, SoftDeletes;
 
-    protected $table = 'protocolos';
+    protected $table = 'preguntas_info_clinicas';
 
     protected $fillable = [
-        'nombre',
-        'descripcion',
-        'tipo_estudio_id'
+        'pregunta',
+        'descripcion'
     ];
 }

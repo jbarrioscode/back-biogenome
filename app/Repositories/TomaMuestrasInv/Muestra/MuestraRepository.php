@@ -82,7 +82,7 @@ class MuestraRepository implements MuestraRepositoryInterface
 
             LogMuestras::create([
                 'muestra_id' => $formulario->id,
-                'user_id' => 1,//\auth()->user()->id,//$request->user_created_id,
+                'user_id' => \auth()->user()->id,//$request->user_created_id,
                 'estado_id' => 1,
             ]);
 
