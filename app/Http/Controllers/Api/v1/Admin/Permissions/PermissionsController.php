@@ -39,6 +39,16 @@ class PermissionsController extends Controller
         }
     }
 
+    public function updatePermission(PermissionRequest $request, $permission_id)
+    {
+        try {
+
+            return $this->permissionRepository->updatePermission($request, $permission_id);
+        } catch (\Throwable $th) {
+            return $th;
+        }
+    }
+
     public function inactivatePermissionById($id = null)
     {
 
