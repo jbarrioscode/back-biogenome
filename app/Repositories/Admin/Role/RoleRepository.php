@@ -19,9 +19,9 @@ class RoleRepository implements RoleRepositoryInterface
 
             $roles = Role::with('permissions')->get();
 
-            if (empty($roles)) return $this->error("We did not find Any Role", 204);
+            if (empty($roles)) return $this->error("No se encontraron Roles", 204);
 
-            return $this->success($roles, count($roles), "Roles Returned!", 200);
+            return $this->success($roles, count($roles), "Roles Retornados!", 200);
         } catch (\Throwable $th) {
             return $this->error($th->getMessage(), 204, "");
         }
@@ -37,14 +37,14 @@ class RoleRepository implements RoleRepositoryInterface
                 'name' => strtoupper($request->name)
             ]);
 
-            if (!$role) return $this->error("Error creating Role", 204);
+            if (!$role) return $this->error("Error al crear el Role", 204);
 
             if ($request->permissions) {
 
                 $role->syncPermissions($request->permissions);
             }
 
-            return $this->success($role, 1, "Role created Successfully!", 201);
+            return $this->success($role, 1, "Rol creado Correctamente!", 201);
         } catch (\Throwable $th) {
             return $this->error($th->getMessage(), 204, "");
         }
@@ -56,20 +56,20 @@ class RoleRepository implements RoleRepositoryInterface
 
             $role = Role::findById($id);
 
-            if (!$role) return $this->error("We did not find Any Permission", 204);
+            if (!$role) return $this->error("No se encontro ningun permiso con este ID", 204);
 
-            if (!$request->name) return  $this->error("Name Parameter Cannot be Empty!", 500);
+            if (!$request->name) return $this->error("El parametro NOMBRE no debe estar vacio", 400);
 
             $role->name = strtoupper($request->name);
 
-            if (!$role->update()) return $this->error("An error Ocurred while Updating the Role" . " " . $request->name, 500);
+            if (!$role->update()) return $this->error("Ha ocurrido un error al modificar el ROL" . " " . $request->name, 500);
 
             if (count($request->permissions) > 0) {
 
                 $role->syncPermissions($request->permissions);
             }
 
-            return $this->success($role, "Role updated Successfully!", 200);
+            return $this->success($role, "Rol Actualizado Correctamente!", 201);
         } catch (\Throwable $th) {
             return $this->error($th->getMessage(), 204, "");
         }
@@ -84,15 +84,15 @@ class RoleRepository implements RoleRepositoryInterface
     {
         try {
 
-            if (!$id) return $this->error("ID parameter cannot be Empty!", 500);
+            if (!$id) return $this->error("El parametro ID no debe estar vacio", 400);
 
             $role = Role::findById($id);
 
-            if (!$role) return $this->error("We did not find Any Permission", 204);
+            if (!$role) return $this->error("No encontramos ningun rol con este ID", 204);
 
-            if (!$role->delete()) return $this->error("An error Ocurred while Removing the Role", 500);
+            if (!$role->delete()) return $this->error("Ha ocurrido un error al eliminar el rol", 500);
 
-            return $this->success("", 1, "Role Removed Successfully!", 200);
+            return $this->success("", 1, "Rol Eliminado Correctamente!", 201);
         } catch (\Throwable $th) {
             return $this->error($th->getMessage(), 204, "");
         }

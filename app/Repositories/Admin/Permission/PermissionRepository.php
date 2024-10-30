@@ -45,11 +45,34 @@ class PermissionRepository implements PermissionRepositoryInterface
         }
     }
 
+    public function updatePermission(PermissionRequest $request, $permission_id): JsonResponse
+    {
+        // TODO: Implement updatePermission() method.
+        try {
+
+            if(!$permission_id) return $this->error("ID no puede ir vacio!", 400);
+
+            $permission = Permission::findById($permission_id);
+
+            if (!$permission) return $this->error("NO se encontro ningun permiso con este ID", 204);
+
+            $permission->name = $request->name;
+
+            if (!$permission->update()) return $this->error("No se puede ACTUALIZAR el permiso", 500);
+
+            return $this->success($permission, 1,"Permiso ACTUALIZADO correctamente!", 201);
+
+
+        } catch (\Throwable $th) {
+            return $this->error($th->getMessage(), 204, "");
+        }
+    }
+
     public function inactivatePermissionById($id = null): JsonResponse
     {
         try {
 
-            if(!$id) return $this->error("ID no puede ir vacio!", 500);
+            if(!$id) return $this->error("ID no puede ir vacio!", 400);
 
             $permission = Permission::findById($id);
 
@@ -57,7 +80,7 @@ class PermissionRepository implements PermissionRepositoryInterface
 
             if (!$permission->delete()) return $this->error("No se puede INACTIVAR el permiso", 500);
 
-            return $this->success("", "Permiso INACTIVADO correctamente!", 200);
+            return $this->success([], 1,"Permiso INACTIVADO correctamente!", 200);
         } catch (\Throwable $th) {
             return $this->error($th->getMessage(), 204, "");
         }
