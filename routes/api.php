@@ -88,7 +88,6 @@ Route::prefix('/v1')->group(function () {
         Route::post('/patient/post/create-patient', [PacienteController::class, 'createPatient']); // Implemented in frontend
         Route::post('/patient/post/patient-informed-consent', [PacienteController::class, 'patientInformedConsent']);
         Route::get('/patient/get/todos-pacientes', [PacienteController::class, 'getAllPacientes']); // Implemented in frontend
-
         Route::get('/patient/get/consentimiento-por-protocolo/{protocolo_id}', [PacienteController::class, 'getConsentimientoPorProtocolo']);
 
 
