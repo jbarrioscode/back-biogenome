@@ -45,7 +45,7 @@ Route::prefix('/v1')->group(function () {
     /** Routes For Handle Role Management  */
     Route::get('roles', [RolesController::class, 'getRoleList']);
     Route::post('roles/store', [RolesController::class, 'saveRole']);
-    Route::put('roles/edit/{id}', [RolesController::class, 'modifyRoleById']);
+    Route::put('roles/update/{id}', [RolesController::class, 'modifyRoleById']);
     Route::delete('roles/delete/{id?}', [RolesController::class, 'inactivateRoleById']);
 
     /** Routes For Handle Permission Management  */
