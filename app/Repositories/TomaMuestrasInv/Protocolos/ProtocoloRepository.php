@@ -32,7 +32,7 @@ class ProtocoloRepository implements ProtocoloRepositoryInterface
             $protocolo=Protocolo_user_sede::select('stm.id as id_sede', 'stm.descripcion as sede', 'p2.id as protocolo_id', 'p2.nombre as protocolo')
                 ->leftJoin('sedes_toma_muestras as stm', 'stm.id', '=', 'protocolo_user_sedes.sede_id')
                 ->leftJoin('protocolos as p2', 'p2.id', '=', 'protocolo_user_sedes.protocolo_id')
-                ->where('protocolo_user_sedes.user_id', \auth()->user()->id)
+                ->where('protocolo_user_sedes.user_id', auth()->id())
                  ->where('stm.id', $sede_id)
                 ->get();
 
@@ -49,7 +49,7 @@ class ProtocoloRepository implements ProtocoloRepositoryInterface
                 ];
             })->values()->first();
 
-            if (count($data)==0) return $this->error("No se encontró ningun protocolo", 204, []);
+            if (empty($data)) return $this->error("No se encontró ningun protocolo", 204, []);
 
             return $this->success($data,count($data),'ok',200);
 
