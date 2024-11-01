@@ -24,16 +24,16 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-/*
+
 Route::middleware(['auth:sanctum', 'verified'])->get('/user', function (Request $request) {
     return $request->user();
 });
-*/
+
 /** App Routes */
 Route::prefix('/v1')->group(function () {
 
 
-    //Route::middleware(['auth', 'verified'])->group(function () {
+    //Route::middleware(['auth:sanctum', 'verified'])->group(function () {
 
         /* ADMINISTRADOR*/
         /** Routes For User Management  */
