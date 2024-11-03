@@ -114,7 +114,7 @@ class PacienteRepository implements PacienteRepositoryInterface
     {
         $rules = [
             'tipo_consentimiento_informado_id' => 'required|integer',
-            'paciente_id' => 'required|string',
+            'paciente_id' => 'required|integer',
             'firma' => 'required|string',
         ];
 
