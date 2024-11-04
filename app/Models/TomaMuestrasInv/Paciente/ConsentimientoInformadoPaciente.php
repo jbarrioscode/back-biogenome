@@ -17,7 +17,13 @@ class ConsentimientoInformadoPaciente extends Model
     protected $fillable = [
         'tipo_consentimiento_informado_id',
         'paciente_id',
-        'firma'
+        'firma',
+        'nombre_completo',
+        'tipo_documento',
+        'documento',
+        'relacion_sujeto',
+        'direccion',
+        'firmante_id',
     ];
 
 }

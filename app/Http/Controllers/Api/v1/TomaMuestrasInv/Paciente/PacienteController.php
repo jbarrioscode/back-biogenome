@@ -35,6 +35,16 @@ class PacienteController extends Controller
             throw $th;
         }
     }
+    public function getFirmantes(Request $request)
+    {
+        try {
+
+            return $this->pacienteRepository->getFirmantes($request);
+
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+    }
 
     public function patientInformedConsent(Request $request)
     {

@@ -2,15 +2,18 @@
 
 namespace App\Repositories\TomaMuestrasInv\Muestra;
 
+use App\Http\Requests\TomaMuestrasInv\Muestra\MuestraRequest;
 use App\Models\TomaMuestrasInv\Encuesta\Respuestas;
 use App\Models\TomaMuestrasInv\Muestras\FormularioMuestra;
 use App\Models\TomaMuestrasInv\Muestras\LogMuestras;
+use App\Models\TomaMuestrasInv\Muestras\RespuestasInfoClinica;
 use App\Models\TomaMuestrasInv\Muestras\TipoEstudio;
 use App\Models\TomaMuestrasInv\Paciente\Pacientes;
 use App\Traits\RequestResponseFormatTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Validator;
 
 class MuestraRepository implements MuestraRepositoryInterface
 {
@@ -30,7 +33,7 @@ class MuestraRepository implements MuestraRepositoryInterface
         }
     }
 
-    public function guardarMuestra(Request $request)
+    public function guardarMuestra(MuestraRequest $request)
     {
 
 
@@ -38,22 +41,12 @@ class MuestraRepository implements MuestraRepositoryInterface
 
         try {
 
-
-            //SE CREA EL FORMULARIO Y LUEGO SE GUARDA LOS DETALLES
-
-            /*
-            $patient = Pacientes::all()
-                ->where('tipo_doc', '=', $request->tipo_doc)
-                ->where('numero_documento', '=', $request->numero_documento)
-                ->first();
-
-            /*
-            $validacion = ValidacionesEncuestaInvRepository::validarCrearEncuesta($request, $patient->id);
+            $validacion = ValidacionesMuestrasRepository::validarCreacionMuestra($request, $request->paciente_id);
 
             if ($validacion != "") {
                 return $this->error($validacion, 204, []);
             }
-            */
+
 
             $user_created_id = \auth()->user()->id;
 
@@ -102,6 +95,74 @@ class MuestraRepository implements MuestraRepositoryInterface
 
     public function guardarInfoClinica(Request $request)
     {
-        // TODO: Implement guardarInfoClinica() method.
+        DB::beginTransaction();
+
+        try {
+            $rules = [
+                'muestra_id' => 'required',
+                'user_id' => 'required',
+            ];
+
+            $messages = [
+                'muestra_id.required' => 'La muestra está vacio.',
+                'user_id.required' => 'user id está vacio.',
+            ];
+
+            $validator = Validator::make($request->all(), $rules, $messages);
+            if ($validator->fails()) {
+                return $this->error($validator->errors(), 422, []);
+            }
+
+            $validacion = ValidacionesMuestrasRepository::validarRespuestasClinicas($request->datos, $request->muestra_id);
+
+            if ($validacion != "") {
+                return $this->error($validacion, 204, []);
+            }
+
+            $respuestas = [];
+
+            foreach ($request->datos as $inf) {
+
+                $value=null;
+                if(isset($inf['valor'])){
+                    $value = $inf['valor'];
+                }
+
+                $data = [
+                    'fecha' => $inf['fecha'],
+                    'respuesta' => $inf['respuesta'],
+                    'pregunta_id' => $inf['pregunta_id'],
+                    'valor' => $value,
+                    'minv_formulario_id' => $request->encuesta_id,
+                ];
+
+                switch ($inf['pregunta_id']) {
+                    case 4:
+                        $data['unidad'] = $inf['unidad'];
+                        break;
+                    case 6:
+                        $data['tipo_imagen'] = $inf['tipo_imagen'];
+                        break;
+                }
+
+                $respuestas[] = RespuestasInfoClinica::create($data);
+            }
+
+            LogMuestras::create([
+                'muestra_id' => $request->encuesta_id,
+                'user_id' => $request->user_id,
+                'estado_id' => 2,
+            ]);
+
+            DB::commit();
+
+            return $this->success($respuestas, 1, 'Respuestas registradas correctamente', 201);
+
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            //return $this->error('Hay un error con el ID de la muestra: ' . $idErrorMuestra, 204, []);
+            throw $th;
+        }
     }
+
 }

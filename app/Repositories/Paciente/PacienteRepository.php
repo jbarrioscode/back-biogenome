@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\v1\Encrypt\EncryptEncuestaInvController;
 use App\Models\TomaMuestrasInv\Muestras\FormularioMuestra;
 use App\Models\TomaMuestrasInv\Muestras\Muestra;
 use App\Models\TomaMuestrasInv\Paciente\ConsentimientoInformadoPaciente;
+use App\Models\TomaMuestrasInv\Paciente\Firmante;
 use App\Models\TomaMuestrasInv\Paciente\Pacientes;
 use App\Traits\AuthenticationTrait;
 use App\Traits\RequestResponseFormatTrait;
@@ -115,12 +116,14 @@ class PacienteRepository implements PacienteRepositoryInterface
             'tipo_consentimiento_informado_id' => 'required|integer',
             'paciente_id' => 'required|string',
             'firma' => 'required|string',
+            'firmante_id' => 'required|integer',
         ];
 
         $messages = [
             'tipo_consentimiento_informado_id.required' => 'El ID del consentimiento está vacio.',
             'paciente_id.required' => 'El ID del paciente está vacio.',
             'firma.required' => 'Firma está vacio.',
+            'firmante_id.required' => 'Firmante está vacio.',
         ];
 
         $validator = Validator::make($request->all(), $rules, $messages);
@@ -131,7 +134,12 @@ class PacienteRepository implements PacienteRepositoryInterface
         $consentimiento = ConsentimientoInformadoPaciente::create([
             'tipo_consentimiento_informado_id' => $request->tipo_consentimiento_informado_id,
             'paciente_id' => $request->paciente_id,
-            'firma' => $request->firma,
+            'nombre_completo' => $request->nombre_completo,
+            'tipo_documento' => $request->tipo_documento,
+            'documento' => $request->documento,
+            'relacion_sujeto' => $request->relacion_sujeto,
+            'direccion' => $request->direccion,
+            'firmante_id' => $request->firmante_id,
         ]);
 
         return $this->success($consentimiento, 1, 'Consentimiento registrado correctamente', 201);
@@ -211,6 +219,21 @@ class PacienteRepository implements PacienteRepositoryInterface
             if (count($result) == 0) return $this->error("No se encontró pacientes", 204, []);
 
             return $this->success($result, count($result), 'ok', 200);
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+
+
+    }
+    public function getFirmantes(Request $request)
+    {
+        try {
+
+            $firmantes = Firmante::all();
+
+            if (count($firmantes) == 0) return $this->error("No se encontró firmantes", 204, []);
+
+            return $this->success($firmantes, count($firmantes), 'ok', 200);
         } catch (\Throwable $th) {
             throw $th;
         }

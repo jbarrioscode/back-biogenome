@@ -89,6 +89,8 @@ Route::prefix('/v1')->group(function () {
         Route::post('/patient/post/patient-informed-consent', [PacienteController::class, 'patientInformedConsent']);
         Route::get('/patient/get/todos-pacientes', [PacienteController::class, 'getAllPacientes']); // Implemented in frontend
 
+        Route::get('/patient/get/firmantes', [PacienteController::class, 'getFirmantes']); // Implemented in frontend
+
         Route::get('/patient/get/consentimiento-por-protocolo/{protocolo_id}', [PacienteController::class, 'getConsentimientoPorProtocolo']);
 
 
@@ -100,7 +102,12 @@ Route::prefix('/v1')->group(function () {
 
         Route::get('/muestra/get/tipo-estudio', [MuestraController::class, 'obtenerTipoEstudio']);
         Route::post('/muestra/post/guardar-muestra', [MuestraController::class, 'guardarMuestra']);
+
+        /* INFORMACIÓN CLINICA */
+
         Route::post('/muestra/post/guardar-info-clinica', [MuestraController::class, 'guardarInfoClinica']);
+
+
 
 
 

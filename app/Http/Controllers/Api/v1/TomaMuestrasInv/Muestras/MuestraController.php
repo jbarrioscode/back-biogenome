@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\api\v1\TomaMuestrasInv\Muestras;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\TomaMuestrasInv\Muestra\MuestraRequest;
 use App\Repositories\TomaMuestrasInv\Muestra\MuestraRepositoryInterface;
 use Illuminate\Http\Request;
 
@@ -25,7 +26,7 @@ class MuestraController extends Controller
             throw $th;
         }
     }
-    public function guardarMuestra(Request $request)
+    public function guardarMuestra(MuestraRequest $request)
     {
         try {
 
