@@ -36,6 +36,16 @@ class MuestraController extends Controller
             throw $th;
         }
     }
+    public function getPacientePendienteInfoClinica(Request $request)
+    {
+        try {
+
+            return $this->muestraRepository->getPacientePendienteInfoClinica($request);
+
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+    }
     public function guardarInfoClinica(Request $request)
     {
         try {

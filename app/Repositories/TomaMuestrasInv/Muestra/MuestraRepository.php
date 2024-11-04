@@ -6,6 +6,7 @@ use App\Http\Requests\TomaMuestrasInv\Muestra\MuestraRequest;
 use App\Models\TomaMuestrasInv\Encuesta\Respuestas;
 use App\Models\TomaMuestrasInv\Muestras\FormularioMuestra;
 use App\Models\TomaMuestrasInv\Muestras\LogMuestras;
+use App\Models\TomaMuestrasInv\Muestras\Protocolo_user_sede;
 use App\Models\TomaMuestrasInv\Muestras\RespuestasInfoClinica;
 use App\Models\TomaMuestrasInv\Muestras\TipoEstudio;
 use App\Models\TomaMuestrasInv\Paciente\Pacientes;
@@ -18,6 +19,7 @@ use Illuminate\Support\Facades\Validator;
 class MuestraRepository implements MuestraRepositoryInterface
 {
     use RequestResponseFormatTrait;
+
     public function obtenerTipoEstudio(Request $request)
     {
         try {
@@ -33,10 +35,43 @@ class MuestraRepository implements MuestraRepositoryInterface
         }
     }
 
+    public function getPacientePendienteInfoClinica(Request $request)
+    {
+        try {
+
+            $protocolos_id = Protocolo_user_sede::where('user_id', auth()->id())->pluck('protocolo_id');
+
+            $formularios = FormularioMuestra::select('muestras.id',
+                'muestras.created_at', 'muestras.updated_at',
+                'muestras.deleted_at', 'muestras.code_paciente',
+                'sedes_toma_muestras.nombre as sede_toma_muestra'
+                , 'pacientes.tipo_doc', 'pacientes.numero_documento')
+                ->addSelect(DB::raw('(SELECT est.nombre
+                    FROM log_muestras
+                    LEFT JOIN minv_estados_muestras est ON est.id = log_muestras.estado_id
+                    WHERE muestras.id = log_muestras.muestra_id
+                    ORDER BY log_muestras.estado_id DESC
+                    LIMIT 1) AS ultimo_estado'))
+                ->leftJoin('sedes_toma_muestras', 'sedes_toma_muestras.id', '=', 'muestras.sedes_toma_muestras_id')
+                ->leftJoin('respuestas_info_clinicas', 'respuestas_info_clinicas.muestra_id', '=', 'muestras.id')
+                ->leftJoin('pacientes', 'pacientes.id', '=', 'muestras.paciente_id')
+                ->whereNull('respuestas_info_clinicas.id')
+                ->whereIn('protocolo_id', $protocolos_id->toArray())
+                ->orderBy('muestras.id', 'asc')
+                ->get();
+
+            if (empty($formularios)) return $this->error("No se encontró pacientes por complemtar información clinica", 204, []);
+
+            return $this->success($formularios, count($formularios), 'ok', 200);
+
+
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+    }
+
     public function guardarMuestra(MuestraRequest $request)
     {
-
-
         DB::beginTransaction();
 
         try {
@@ -46,7 +81,6 @@ class MuestraRepository implements MuestraRepositoryInterface
             if ($validacion != "") {
                 return $this->error($validacion, 204, []);
             }
-
 
             $user_created_id = \auth()->user()->id;
 
@@ -81,7 +115,7 @@ class MuestraRepository implements MuestraRepositoryInterface
 
             DB::commit();
             $formulario->detalle = $detalle;
-            $formulario->code = $code_muestra.'-'.$request->sedes_toma_muestras_id.'-'.$user_created_id;
+            $formulario->code = $code_muestra . '-' . $request->sedes_toma_muestras_id . '-' . $user_created_id;
 
             return $this->success($formulario, 1, 'Formulario registrado', 201);
 
@@ -123,8 +157,8 @@ class MuestraRepository implements MuestraRepositoryInterface
 
             foreach ($request->datos as $inf) {
 
-                $value=null;
-                if(isset($inf['valor'])){
+                $value = null;
+                if (isset($inf['valor'])) {
                     $value = $inf['valor'];
                 }
 

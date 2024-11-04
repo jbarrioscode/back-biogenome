@@ -94,6 +94,11 @@ Route::prefix('/v1')->group(function () {
         Route::get('/patient/get/consentimiento-por-protocolo/{protocolo_id}', [PacienteController::class, 'getConsentimientoPorProtocolo']);
 
 
+        /* LOTE  */
+        Route::post('/patient/post/patient-informed-consent', [PacienteController::class, 'patientInformedConsent']);
+
+
+
     /*--------------------------------------------------------------------------------*/
         //#####################################################################################
         /*--------------------------------------------------------------------------------*/
@@ -105,6 +110,7 @@ Route::prefix('/v1')->group(function () {
 
         /* INFORMACIÓN CLINICA */
 
+        Route::get('/muestra/get/pacientes-pendiente-informacion-Clinica', [MuestraController::class, 'getPacientePendienteInfoClinica']);
         Route::post('/muestra/post/guardar-info-clinica', [MuestraController::class, 'guardarInfoClinica']);
 
 
