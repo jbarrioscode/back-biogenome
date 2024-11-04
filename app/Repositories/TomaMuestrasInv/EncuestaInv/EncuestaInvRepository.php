@@ -3,6 +3,7 @@
 namespace App\Repositories\TomaMuestrasInv\EncuestaInv;
 
 use App\Models\TomaMuestrasInv\Encuesta\GrupoPregunta;
+use App\Models\TomaMuestrasInv\Encuesta\OpcionesRespuestas;
 use App\Models\TomaMuestrasInv\Encuesta\Preguntas;
 use App\Models\TomaMuestrasInv\Encuesta\PropiedadesPreguntas;
 use App\Models\TomaMuestrasInv\Encuesta\PropiedadesSubPreguntas;
@@ -42,6 +43,9 @@ class EncuestaInvRepository implements EncuestaInvRepositoryInterface
                         ,'propiedades_preguntas.propiedad as propiedad')
                         ->where('pregunta_id',$preg->id_pregunta)->get();
 
+                    $opciones = OpcionesRespuestas::where('pregunta_id',$preg->id_pregunta)->get();
+
+                    $preg->opciones=$opciones;
 
                     $preg->propiedades=$propiedades;
 
