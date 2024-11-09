@@ -8,6 +8,7 @@ use App\Models\TomaMuestrasInv\Muestras\Muestra;
 use App\Models\TomaMuestrasInv\Paciente\ConsentimientoInformadoPaciente;
 use App\Models\TomaMuestrasInv\Paciente\Firmante;
 use App\Models\TomaMuestrasInv\Paciente\Pacientes;
+use App\Models\TomaMuestrasInv\Paciente\TipoConsentimientoInformado;
 use App\Traits\AuthenticationTrait;
 use App\Traits\RequestResponseFormatTrait;
 use Illuminate\Http\Request;
@@ -241,8 +242,18 @@ class PacienteRepository implements PacienteRepositoryInterface
 
     }
 
-    public function getConsentimientoPorProtocolo(Request $request)
+    public function getConsentimientoPorProtocolo(Request $request,$protocolo_id)
     {
-        // TODO: Implement getConsentimientoPorProtocolo() method.
+        try {
+
+            $tipoConsentimietno = TipoConsentimientoInformado::where('protocolo_id',$protocolo_id)->get();
+
+            if (count($tipoConsentimietno) == 0) return $this->error("No se encontró consentimientos a este protocolo", 204, []);
+
+            return $this->success($tipoConsentimietno, count($tipoConsentimietno), 'ok', 200);
+
+        } catch (\Throwable $th) {
+            throw $th;
+        }
     }
 }
