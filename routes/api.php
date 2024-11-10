@@ -24,16 +24,16 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-/*
+
 Route::middleware(['auth:sanctum', 'verified'])->get('/user', function (Request $request) {
     return $request->user();
 });
-*/
+
 /** App Routes */
 Route::prefix('/v1')->group(function () {
 
 
-    //Route::middleware(['auth', 'verified'])->group(function () {
+    //Route::middleware(['auth:sanctum', 'verified'])->group(function () {
 
         /* ADMINISTRADOR*/
         /** Routes For User Management  */
@@ -70,7 +70,6 @@ Route::prefix('/v1')->group(function () {
 
         Route::get('geografia/getallciudad', [GeografiaController::class, 'getAllCiudad']);
         Route::get('geografia/getalldepartamento', [GeografiaController::class, 'getAllDepartamento']);
-
         /*--------------------------------------------------------------------------------*/
         //#####################################################################################
         /*--------------------------------------------------------------------------------*/
@@ -86,22 +85,14 @@ Route::prefix('/v1')->group(function () {
 
 
         Route::post('/patient/post/create-patient', [PacienteController::class, 'createPatient']); // Implemented in frontend
-        Route::post('/patient/post/patient-informed-consent', [PacienteController::class, 'patientInformedConsent']);
+        Route::post('/patient/post/patient-informed-consent', [PacienteController::class, 'patientInformedConsent']); // Implemented in frontend
         Route::get('/patient/get/todos-pacientes', [PacienteController::class, 'getAllPacientes']); // Implemented in frontend
 
-
-        Route::get('/patient/get/firmantes', [PacienteController::class, 'getFirmantes']); // Implemented in frontend
-
-
-        Route::get('/patient/get/consentimiento-por-protocolo/{protocolo_id}', [PacienteController::class, 'getConsentimientoPorProtocolo']);
+        Route::get('/patient/get/consentimiento-por-protocolo/{protocolo_id}', [PacienteController::class, 'getConsentimientoPorProtocolo']); // Implemented in frontend
 
 
-        /* LOTE  */
-        Route::post('/patient/post/patient-informed-consent', [PacienteController::class, 'patientInformedConsent']);
+        /*--------------------------------------------------------------------------------*/
 
-
-
-    /*--------------------------------------------------------------------------------*/
         //#####################################################################################
         /*--------------------------------------------------------------------------------*/
 
@@ -117,9 +108,7 @@ Route::prefix('/v1')->group(function () {
 
 
 
-
-
-    /*--------------------------------------------------------------------------------*/
+        /*--------------------------------------------------------------------------------*/
         //#####################################################################################
         /*--------------------------------------------------------------------------------*/
 
@@ -132,17 +121,13 @@ Route::prefix('/v1')->group(function () {
         Route::put('/protocolos/put/protocolo/{id}', [ProtocoloController::class, 'actualizarProtocolo']);
 
 
-
-
-    /*--------------------------------------------------------------------------------*/
+        /*--------------------------------------------------------------------------------*/
         /* ENCUESTA */
 
         Route::get('/encuesta/get/renderizar-encuesta/{protocolo_id}', [EncuestaController::class, 'renderizarEncuesta']);
 
 
-
-
-    /*  */
+        /*  */
     //});
 
     /* ------------------------------------------------------------------------------------
