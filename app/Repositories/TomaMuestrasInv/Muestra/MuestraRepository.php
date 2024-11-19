@@ -39,7 +39,8 @@ class MuestraRepository implements MuestraRepositoryInterface
     {
         try {
 
-            $protocolos_id = Protocolo_user_sede::where('user_id', auth()->id())->pluck('protocolo_id');
+
+            $protocolos_id = Protocolo_user_sede::where('user_id', 1)->pluck('protocolo_id');
 
             $formularios = FormularioMuestra::select('muestras.id',
                 'muestras.created_at', 'muestras.updated_at',
@@ -52,10 +53,16 @@ class MuestraRepository implements MuestraRepositoryInterface
                     WHERE muestras.id = log_muestras.muestra_id
                     ORDER BY log_muestras.estado_id DESC
                     LIMIT 1) AS ultimo_estado'))
+                ->addSelect(DB::raw('(SELECT est.id
+                    FROM log_muestras
+                    LEFT JOIN minv_estados_muestras est ON est.id = log_muestras.estado_id
+                    WHERE muestras.id = log_muestras.muestra_id
+                    ORDER BY log_muestras.estado_id DESC
+                    LIMIT 1) AS ultimo_estado_id'))
                 ->leftJoin('sedes_toma_muestras', 'sedes_toma_muestras.id', '=', 'muestras.sedes_toma_muestras_id')
                 ->leftJoin('respuestas_info_clinicas', 'respuestas_info_clinicas.muestra_id', '=', 'muestras.id')
                 ->leftJoin('pacientes', 'pacientes.id', '=', 'muestras.paciente_id')
-                ->whereNull('respuestas_info_clinicas.id')
+               // ->whereNull('respuestas_info_clinicas.id')
                 ->whereIn('protocolo_id', $protocolos_id->toArray())
                 ->orderBy('muestras.id', 'asc')
                 ->get();
