@@ -35,31 +35,29 @@ Route::prefix('/v1')->group(function () {
 
     //Route::middleware(['auth:sanctum', 'verified'])->group(function () {
 
-        /* ADMINISTRADOR*/
-        /** Routes For User Management  */
-        Route::get('users', [UsersController::class, 'getUsersList']);
-        Route::post('users/store', [AuthenticationController::class, 'register']);
-        Route::delete('user/inactivate/{id}', [UsersController::class, 'inactivateUserById']);
-        Route::post('users/change-password', [UsersController::class, 'updatePassword']);
-        Route::put('users/update/{userid}', [UsersController::class, 'updateUser']);
 
-        /** Routes For Handle Permission Management  */
-        Route::get('permissions', [PermissionsController::class, 'getPermissionList']);
-        Route::post('permissions/store', [PermissionsController::class, 'savePermission']);
-        Route::delete('permissions/delete/{id}', [PermissionsController::class, 'inactivatePermissionById']);
+    /* ADMINISTRADOR*/
+    /** Routes For User Management  */
+    Route::get('users', [UsersController::class, 'getUsersList']);
+    Route::post('users/store', [AuthenticationController::class, 'register']);
+    Route::delete('user/inactivate/{id}', [UsersController::class, 'inactivateUserById']);
+    Route::post('users/change-password', [UsersController::class, 'updatePassword']);
+    Route::put('users/update/{userid}', [UsersController::class, 'updateUser']);
 
-        /** Routes For Handle Role Management  */
-        Route::get('roles', [RolesController::class, 'getRoleList']);
-        Route::post('roles/store', [RolesController::class, 'saveRole']);
-        Route::put('roles/edit/{id}', [RolesController::class, 'modifyRoleById']);
-        Route::delete('roles/delete/{id?}', [RolesController::class, 'inactivateRoleById']);
+    /** Routes For Handle Permission Management  */
+    Route::get('permissions', [PermissionsController::class, 'getPermissionList']);
+    Route::post('permissions/store', [PermissionsController::class, 'savePermission']);
+    Route::delete('permissions/delete/{id}', [PermissionsController::class, 'inactivatePermissionById']);
 
-        /* Routes For Handle DocumentType */
-        Route::get('document-types', [DocumentTypesController::class, 'getDocumentTypeRepository']);
+    /** Routes For Handle Role Management  */
+    Route::get('roles', [RolesController::class, 'getRoleList']);
+    Route::post('roles/store', [RolesController::class, 'saveRole']);
+    Route::put('roles/edit/{id}', [RolesController::class, 'modifyRoleById']);
+    Route::delete('roles/delete/{id?}', [RolesController::class, 'inactivateRoleById']);
 
-        /*--------------------------------------------------------------------------------*/
-        //#####################################################################################
-        /*--------------------------------------------------------------------------------*/
+
+    /* Routes For Handle DocumentType */
+    Route::get('document-types', [DocumentTypesController::class, 'getDocumentTypeRepository']);
 
         /* PAISES - DEPARTAMENTOS - CIUDADES/MUNICIPIOS  */
 
@@ -80,10 +78,6 @@ Route::prefix('/v1')->group(function () {
         Route::get('/sedesmuestras/get/sedes-toma-de-muestras', [GeografiaController::class, 'getSedesTomaMuestra']);
         Route::post('/sedesmuestras/post/sedes-toma-de-muestras', [GeografiaController::class, 'crearSedeTomaMuestra']);
 
-
-        /* PACIENTE  */
-
-
         Route::post('/patient/post/create-patient', [PacienteController::class, 'createPatient']); // Implemented in frontend
         Route::post('/patient/post/patient-informed-consent', [PacienteController::class, 'patientInformedConsent']); // Implemented in frontend
         Route::get('/patient/get/todos-pacientes', [PacienteController::class, 'getAllPacientes']); // Implemented in frontend
@@ -91,43 +85,36 @@ Route::prefix('/v1')->group(function () {
         Route::get('/patient/get/consentimiento-por-protocolo/{protocolo_id}', [PacienteController::class, 'getConsentimientoPorProtocolo']); // Implemented in frontend
 
 
-        /*--------------------------------------------------------------------------------*/
-
-        //#####################################################################################
-        /*--------------------------------------------------------------------------------*/
-
-        /* MUESTRAS  */
-
-        Route::get('/muestra/get/tipo-estudio', [MuestraController::class, 'obtenerTipoEstudio']);
-        Route::post('/muestra/post/guardar-muestra', [MuestraController::class, 'guardarMuestra']);
-
-        /* INFORMACIÓN CLINICA */
-
-        Route::get('/muestra/get/pacientes-pendiente-informacion-Clinica', [MuestraController::class, 'getPacientePendienteInfoClinica']);
-        Route::post('/muestra/post/guardar-info-clinica', [MuestraController::class, 'guardarInfoClinica']);
+    Route::get('/patient/get/consentimiento-por-protocolo/{protocolo_id}', [PacienteController::class, 'getConsentimientoPorProtocolo']); // Implemented in frontend
 
 
+    /* MUESTRAS  */
 
-        /*--------------------------------------------------------------------------------*/
-        //#####################################################################################
-        /*--------------------------------------------------------------------------------*/
+    Route::get('/muestra/get/tipo-estudio', [MuestraController::class, 'obtenerTipoEstudio']);
+    Route::post('/muestra/post/guardar-muestra', [MuestraController::class, 'guardarMuestra']);
 
-        /* PROTOCOLO  */
+    /* INFORMACIÓN CLINICA */
 
-        Route::get('/protocolos/get/protocolo', [ProtocoloController::class, 'obtenerTodosProtocolos']);
-        Route::get('/protocolos/get/protocolos-activos/{sede_id}', [ProtocoloController::class, 'obtenerProtocosActivosPorUserSede']);
-        Route::post('/protocolos/post/crear-protocolos', [ProtocoloController::class, 'crearProtocolos']);
-        Route::delete('/protocolos/delete/protocolo/{id}', [ProtocoloController::class, 'eliminarProtocolo']);
-        Route::put('/protocolos/put/protocolo/{id}', [ProtocoloController::class, 'actualizarProtocolo']);
-
-
-        /*--------------------------------------------------------------------------------*/
-        /* ENCUESTA */
-
-        Route::get('/encuesta/get/renderizar-encuesta/{protocolo_id}', [EncuestaController::class, 'renderizarEncuesta']);
+    Route::get('/muestra/get/pacientes-pendiente-informacion-Clinica', [MuestraController::class, 'getPacientePendienteInfoClinica']);
+    Route::post('/muestra/post/guardar-info-clinica', [MuestraController::class, 'guardarInfoClinica']);
+    Route::post('/muestra/post/guardar-cerrar-info-clinica', [MuestraController::class, 'guardarYcerrarInfoClinica']);
+    Route::get('/muestra/get/retornar-info-clinica/{muestra_id}', [MuestraController::class, 'getRetornarInfoClinica']);
 
 
-        /*  */
+    /* PROTOCOLO  */
+
+    Route::get('/protocolos/get/protocolo', [ProtocoloController::class, 'obtenerTodosProtocolos']);
+    Route::get('/protocolos/get/protocolos-activos/{sede_id}', [ProtocoloController::class, 'obtenerProtocosActivosPorUserSede']);
+    Route::post('/protocolos/post/crear-protocolos', [ProtocoloController::class, 'crearProtocolos']);
+    Route::delete('/protocolos/delete/protocolo/{id}', [ProtocoloController::class, 'eliminarProtocolo']);
+    Route::put('/protocolos/put/protocolo/{id}', [ProtocoloController::class, 'actualizarProtocolo']);
+
+
+    /*--------------------------------------------------------------------------------*/
+    /* ENCUESTA */
+
+    Route::get('/encuesta/get/renderizar-encuesta/{protocolo_id}', [EncuestaController::class, 'renderizarEncuesta']);
+
     //});
 
     /* ------------------------------------------------------------------------------------
