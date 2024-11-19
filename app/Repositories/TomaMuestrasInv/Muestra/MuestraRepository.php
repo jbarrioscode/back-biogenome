@@ -165,12 +165,12 @@ class MuestraRepository implements MuestraRepositoryInterface
                 $data = [
                     'fecha' => $inf['fecha'],
                     'respuesta' => $inf['respuesta'],
-                    'pregunta_id' => $inf['pregunta_id'],
+                    'pregunta_clinica_id' => $inf['pregunta_clinica_id'],
                     'valor' => $value,
                     'muestra_id' => $request->muestra_id,
                 ];
 
-                switch ($inf['pregunta_id']) {
+                switch ($inf['pregunta_clinica_id']) {
                     case 4:
                         $data['unidad'] = $inf['unidad'];
                         break;
