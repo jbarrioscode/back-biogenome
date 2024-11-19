@@ -26,7 +26,7 @@ class ValidacionesMuestrasRepository
                 }
             }
 
-
+            /*
             //------------------------------------------
             $preguntaIds = range(1, 9);
             $preguntasPresentes = array_column($data, 'pregunta_clinica_id');
@@ -69,7 +69,9 @@ class ValidacionesMuestrasRepository
 
 
             }
+            */
         }
+
         return '';
     }
     public static function validarCreacionMuestra($request, $paciente_id)
