@@ -19,17 +19,17 @@ class ValidacionesMuestrasRepository
             foreach ($data as $inf) {
 
                 if (RespuestasInfoClinica::where('muestra_id', $muestra_id)
-                        ->where('pregunta_id', $inf['pregunta_id']
+                        ->where('pregunta_clinica_id', $inf['pregunta_clinica_id']
                         )->count() > 0) {
 
-                    return 'Ya existe información de la pregunta: ' . $inf['pregunta_id'] . ' de la historia clinica';
+                    return 'Ya existe información de la pregunta: ' . $inf['pregunta_clinica_id'] . ' de la historia clinica';
                 }
             }
 
 
             //------------------------------------------
             $preguntaIds = range(1, 9);
-            $preguntasPresentes = array_column($data, 'pregunta_id');
+            $preguntasPresentes = array_column($data, 'pregunta_clinica_id');
 
             foreach ($preguntaIds as $preguntaId) {
                 if (!in_array($preguntaId, $preguntasPresentes)) {
@@ -42,24 +42,24 @@ class ValidacionesMuestrasRepository
             foreach ($data as $inf) {
 
                 if (!isset($inf['respuesta'])) {
-                    return 'Pregunta ' . $inf['pregunta_id'] . ' debe contener respuesta';
+                    return 'Pregunta ' . $inf['pregunta_clinica_id'] . ' debe contener respuesta';
                 }
 
-                if ($inf['pregunta_id'] != 1 && $inf['pregunta_id'] != 7 && $inf['pregunta_id'] != 8 && $inf['pregunta_id'] != 9) {
+                if ($inf['pregunta_clinica_id'] != 1 && $inf['pregunta_clinica_id'] != 7 && $inf['pregunta_clinica_id'] != 8 && $inf['pregunta_clinica_id'] != 9) {
 
                     if (!isset($inf['fecha'])) {
-                        return 'Pregunta ' . $inf['pregunta_id'] . ' debe contener fecha';
+                        return 'Pregunta ' . $inf['pregunta_clinica_id'] . ' debe contener fecha';
                     }
 
-                    switch ($inf['pregunta_id']) {
+                    switch ($inf['pregunta_clinica_id']) {
                         case 4:
                             if (!isset($inf['unidad'])) {
-                                return "Se requiere 'unidad' para la pregunta_id 4";
+                                return "Se requiere 'unidad' para la pregunta_clinica_id 4";
                             }
                             break;
                         case 6:
                             if (!isset($inf['tipo_imagen'])) {
-                                return "Se requiere 'tipo imagen' para la pregunta_id 6";
+                                return "Se requiere 'tipo imagen' para la pregunta_clinica_id 6";
                             }
                             break;
                     }//

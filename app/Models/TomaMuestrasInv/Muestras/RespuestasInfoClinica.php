@@ -20,7 +20,7 @@ class RespuestasInfoClinica extends Model
         'tipo_imagen',
         'observacion',
         'muestra_id',
-        'pregunta_id',
+        'pregunta_clinica_id',
         'valor'
     ];
 }
