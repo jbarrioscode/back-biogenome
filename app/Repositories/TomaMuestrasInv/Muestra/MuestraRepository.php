@@ -167,7 +167,7 @@ class MuestraRepository implements MuestraRepositoryInterface
                     'respuesta' => $inf['respuesta'],
                     'pregunta_id' => $inf['pregunta_id'],
                     'valor' => $value,
-                    'minv_formulario_id' => $request->encuesta_id,
+                    'muestra_id' => $request->muestra_id,
                 ];
 
                 switch ($inf['pregunta_id']) {
@@ -182,11 +182,6 @@ class MuestraRepository implements MuestraRepositoryInterface
                 $respuestas[] = RespuestasInfoClinica::create($data);
             }
 
-            LogMuestras::create([
-                'muestra_id' => $request->encuesta_id,
-                'user_id' => $request->user_id,
-                'estado_id' => 2,
-            ]);
 
             DB::commit();
 
@@ -197,6 +192,57 @@ class MuestraRepository implements MuestraRepositoryInterface
             //return $this->error('Hay un error con el ID de la muestra: ' . $idErrorMuestra, 204, []);
             throw $th;
         }
+    }
+
+    public function guardarYcerrarInfoClinica(Request $request)
+    {
+        try {
+            $rules = [
+                'muestra_id' => 'required',
+                'user_id' => 'required',
+            ];
+
+            $messages = [
+                'muestra_id.required' => 'La muestra está vacio.',
+                'user_id.required' => 'user id está vacio.',
+            ];
+
+            $validator = Validator::make($request->all(), $rules, $messages);
+            if ($validator->fails()) {
+                return $this->error($validator->errors(), 422, []);
+            }
+
+            $log=LogMuestras::create([
+                'muestra_id' => $request->encuesta_id,
+                'user_id' => $request->user_id,
+                'estado_id' => 2,
+            ]);
+            return $this->success($log, 1, 'Historia clinica cerrada correctamente', 201);
+
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            throw $th;
+        }
+    }
+
+    public function getRetornarInfoClinica(Request $request,$muestra_id)
+    {
+
+        try {
+
+            $respuesta=RespuestasInfoClinica::select('respuestas_info_clinicas.*','preguntas_info_clinicas.pregunta','preguntas_info_clinicas.*')
+                ->leftjoin('preguntas_info_clinicas','preguntas_info_clinicas.id','=','respuestas_info_clinicas.pregunta_clinica_id')
+                ->where('muestra_id',$muestra_id)->get();
+
+            if (empty($respuesta)) return $this->error("No se encontró respuesta clinica", 204, []);
+
+            return $this->success($respuesta, count($respuesta), 'ok', 200);
+
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+
+
     }
 
 }

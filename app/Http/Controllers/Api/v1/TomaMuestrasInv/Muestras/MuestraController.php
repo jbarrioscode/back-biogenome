@@ -56,4 +56,24 @@ class MuestraController extends Controller
             throw $th;
         }
     }
+    public function guardarYcerrarInfoClinica(Request $request)
+    {
+        try {
+
+            return $this->muestraRepository->guardarYcerrarInfoClinica($request);
+
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+    }
+    public function getRetornarInfoClinica(Request $request,$muestra_id)
+    {
+        try {
+
+            return $this->muestraRepository->getRetornarInfoClinica($request,$muestra_id);
+
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+    }
 }

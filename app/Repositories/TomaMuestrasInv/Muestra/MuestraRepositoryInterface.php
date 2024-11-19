@@ -11,8 +11,8 @@ interface MuestraRepositoryInterface
     public function guardarMuestra(MuestraRequest $request);
     public function getPacientePendienteInfoClinica(Request $request);
     public function guardarInfoClinica(Request $request);
-
-
+    public function guardarYcerrarInfoClinica(Request $request);
+    public function getRetornarInfoClinica(Request $request,$muestra_id);
 
 
 }
