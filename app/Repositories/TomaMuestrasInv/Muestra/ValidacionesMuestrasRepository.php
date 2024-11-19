@@ -18,7 +18,7 @@ class ValidacionesMuestrasRepository
 
             foreach ($data as $inf) {
 
-                if (RespuestasInfoClinica::where('minv_formulario_id', $muestra_id)
+                if (RespuestasInfoClinica::where('muestra_id', $muestra_id)
                         ->where('pregunta_id', $inf['pregunta_id']
                         )->count() > 0) {
 
