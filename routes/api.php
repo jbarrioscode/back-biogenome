@@ -35,6 +35,7 @@ Route::prefix('/v1')->group(function () {
 
     //Route::middleware(['auth:sanctum', 'verified'])->group(function () {
 
+
     /* ADMINISTRADOR*/
     /** Routes For User Management  */
     Route::get('users', [UsersController::class, 'getUsersList']);
@@ -54,47 +55,38 @@ Route::prefix('/v1')->group(function () {
     Route::put('roles/edit/{id}', [RolesController::class, 'modifyRoleById']);
     Route::delete('roles/delete/{id?}', [RolesController::class, 'inactivateRoleById']);
 
+
     /* Routes For Handle DocumentType */
     Route::get('document-types', [DocumentTypesController::class, 'getDocumentTypeRepository']);
 
-    /*--------------------------------------------------------------------------------*/
-    //#####################################################################################
-    /*--------------------------------------------------------------------------------*/
+        /* PAISES - DEPARTAMENTOS - CIUDADES/MUNICIPIOS  */
 
-    /* PAISES - DEPARTAMENTOS - CIUDADES/MUNICIPIOS  */
+        Route::get('geografia/getpais', [GeografiaController::class, 'getPais']);
+        Route::get('geografia/getdepartamento/{pais_id}', [GeografiaController::class, 'getDepartamento']);
+        Route::get('geografia/getciudad/{departamento_id}', [GeografiaController::class, 'getCiudad']);
+        Route::get('geografia/getciudadforpaisid/{pais_id}', [GeografiaController::class, 'getCiudadesForPaisId']);
 
-    Route::get('geografia/getpais', [GeografiaController::class, 'getPais']);
-    Route::get('geografia/getdepartamento/{pais_id}', [GeografiaController::class, 'getDepartamento']);
-    Route::get('geografia/getciudad/{departamento_id}', [GeografiaController::class, 'getCiudad']);
-    Route::get('geografia/getciudadforpaisid/{pais_id}', [GeografiaController::class, 'getCiudadesForPaisId']);
+        Route::get('geografia/getallciudad', [GeografiaController::class, 'getAllCiudad']);
+        Route::get('geografia/getalldepartamento', [GeografiaController::class, 'getAllDepartamento']);
+        /*--------------------------------------------------------------------------------*/
+        //#####################################################################################
+        /*--------------------------------------------------------------------------------*/
 
-    Route::get('geografia/getallciudad', [GeografiaController::class, 'getAllCiudad']);
-    Route::get('geografia/getalldepartamento', [GeografiaController::class, 'getAllDepartamento']);
-    /*--------------------------------------------------------------------------------*/
-    //#####################################################################################
-    /*--------------------------------------------------------------------------------*/
+        /*--------------------------------------------------------------------------------*/
+        /* SEDES DE TOMA DE MUESTRAS */
 
-    /*--------------------------------------------------------------------------------*/
-    /* SEDES DE TOMA DE MUESTRAS */
+        Route::get('/sedesmuestras/get/sedes-toma-de-muestras', [GeografiaController::class, 'getSedesTomaMuestra']);
+        Route::post('/sedesmuestras/post/sedes-toma-de-muestras', [GeografiaController::class, 'crearSedeTomaMuestra']);
 
-    Route::get('/sedesmuestras/get/sedes-toma-de-muestras', [GeografiaController::class, 'getSedesTomaMuestra']);
-    Route::post('/sedesmuestras/post/sedes-toma-de-muestras', [GeografiaController::class, 'crearSedeTomaMuestra']);
+        Route::post('/patient/post/create-patient', [PacienteController::class, 'createPatient']); // Implemented in frontend
+        Route::post('/patient/post/patient-informed-consent', [PacienteController::class, 'patientInformedConsent']); // Implemented in frontend
+        Route::get('/patient/get/todos-pacientes', [PacienteController::class, 'getAllPacientes']); // Implemented in frontend
 
+        Route::get('/patient/get/consentimiento-por-protocolo/{protocolo_id}', [PacienteController::class, 'getConsentimientoPorProtocolo']); // Implemented in frontend
 
-    /* PACIENTE  */
-
-
-    Route::post('/patient/post/create-patient', [PacienteController::class, 'createPatient']); // Implemented in frontend
-    Route::post('/patient/post/patient-informed-consent', [PacienteController::class, 'patientInformedConsent']); // Implemented in frontend
-    Route::get('/patient/get/todos-pacientes', [PacienteController::class, 'getAllPacientes']); // Implemented in frontend
 
     Route::get('/patient/get/consentimiento-por-protocolo/{protocolo_id}', [PacienteController::class, 'getConsentimientoPorProtocolo']); // Implemented in frontend
 
-
-    /*--------------------------------------------------------------------------------*/
-
-    //#####################################################################################
-    /*--------------------------------------------------------------------------------*/
 
     /* MUESTRAS  */
 
@@ -108,11 +100,6 @@ Route::prefix('/v1')->group(function () {
     Route::post('/muestra/post/guardar-cerrar-info-clinica', [MuestraController::class, 'guardarYcerrarInfoClinica']);
     Route::get('/muestra/get/retornar-info-clinica/{muestra_id}', [MuestraController::class, 'getRetornarInfoClinica']);
 
-
-
-    /*--------------------------------------------------------------------------------*/
-    //#####################################################################################
-    /*--------------------------------------------------------------------------------*/
 
     /* PROTOCOLO  */
 
@@ -128,8 +115,6 @@ Route::prefix('/v1')->group(function () {
 
     Route::get('/encuesta/get/renderizar-encuesta/{protocolo_id}', [EncuestaController::class, 'renderizarEncuesta']);
 
-
-    /*  */
     //});
 
     /* ------------------------------------------------------------------------------------
