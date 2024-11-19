@@ -40,7 +40,7 @@ class MuestraRepository implements MuestraRepositoryInterface
         try {
 
 
-            $protocolos_id = Protocolo_user_sede::where('user_id', 1)->pluck('protocolo_id');
+            $protocolos_id = Protocolo_user_sede::where('user_id', auth()->id())->pluck('protocolo_id');
 
             $formularios = FormularioMuestra::select('muestras.id',
                 'muestras.created_at', 'muestras.updated_at',
