@@ -60,7 +60,6 @@ class MuestraRepository implements MuestraRepositoryInterface
                     ORDER BY log_muestras.estado_id DESC
                     LIMIT 1) AS ultimo_estado_id'))
                 ->leftJoin('sedes_toma_muestras', 'sedes_toma_muestras.id', '=', 'muestras.sedes_toma_muestras_id')
-                ->leftJoin('respuestas_info_clinicas', 'respuestas_info_clinicas.muestra_id', '=', 'muestras.id')
                 ->leftJoin('pacientes', 'pacientes.id', '=', 'muestras.paciente_id')
                // ->whereNull('respuestas_info_clinicas.id')
                ->whereRaw('(SELECT est.id
