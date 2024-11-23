@@ -11,6 +11,7 @@ use App\Models\TomaMuestrasInv\Paciente\Pacientes;
 use App\Models\TomaMuestrasInv\Paciente\TipoConsentimientoInformado;
 use App\Traits\AuthenticationTrait;
 use App\Traits\RequestResponseFormatTrait;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
@@ -193,6 +194,7 @@ class PacienteRepository implements PacienteRepositoryInterface
                         'primer_apellido' => $pa->primer_apellido,
                         'segundo_apellido' => $pa->segundo_apellido,
                         'fecha_nacimiento' => $pa->fecha_nacimiento,
+                        'edad' => Carbon::parse($pa->fecha_nacimiento)->age,
                         'fecha_expedicion' => $pa->fecha_expedicion,
                         'telefono_celular' => $pa->telefono_celular,
                         'pais_residencia' => $pa->pais_residencia,

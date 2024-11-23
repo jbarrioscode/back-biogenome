@@ -61,7 +61,6 @@ class MuestraRepository implements MuestraRepositoryInterface
                     LIMIT 1) AS ultimo_estado_id'))
                 ->leftJoin('sedes_toma_muestras', 'sedes_toma_muestras.id', '=', 'muestras.sedes_toma_muestras_id')
                 ->leftJoin('pacientes', 'pacientes.id', '=', 'muestras.paciente_id')
-               // ->whereNull('respuestas_info_clinicas.id')
                ->whereRaw('(SELECT est.id
                     FROM log_muestras
                     LEFT JOIN minv_estados_muestras est ON est.id = log_muestras.estado_id
@@ -226,7 +225,7 @@ class MuestraRepository implements MuestraRepositoryInterface
             }
 
             $log=LogMuestras::create([
-                'muestra_id' => $request->encuesta_id,
+                'muestra_id' => $request->muestra_id,
                 'user_id' => $request->user_id,
                 'estado_id' => 2,
             ]);
