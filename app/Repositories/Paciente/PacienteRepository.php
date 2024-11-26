@@ -6,10 +6,12 @@ use App\Http\Controllers\Api\v1\Encrypt\EncryptEncuestaInvController;
 use App\Models\TomaMuestrasInv\Muestras\FormularioMuestra;
 use App\Models\TomaMuestrasInv\Muestras\Muestra;
 use App\Models\TomaMuestrasInv\Paciente\ConsentimientoInformadoPaciente;
+use App\Models\TomaMuestrasInv\Paciente\Firmante;
 use App\Models\TomaMuestrasInv\Paciente\Pacientes;
 use App\Models\TomaMuestrasInv\Paciente\TipoConsentimientoInformado;
 use App\Traits\AuthenticationTrait;
 use App\Traits\RequestResponseFormatTrait;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
@@ -112,28 +114,41 @@ class PacienteRepository implements PacienteRepositoryInterface
 
     public function patientInformedConsent(Request $request)
     {
+        /*
         $rules = [
             'tipo_consentimiento_informado_id' => 'required|integer',
             'paciente_id' => 'required|integer',
             'firma' => 'required|string',
+            'firmante_id' => 'required|integer',
         ];
 
         $messages = [
             'tipo_consentimiento_informado_id.required' => 'El ID del consentimiento está vacio.',
             'paciente_id.required' => 'El ID del paciente está vacio.',
             'firma.required' => 'Firma está vacio.',
+            'firmante_id.required' => 'Firmante está vacio.',
         ];
 
         $validator = Validator::make($request->all(), $rules, $messages);
         if ($validator->fails()) {
             return $this->error($validator->errors(), 422, []);
         }
+        */
+        foreach ($request->firmas as $firma){
 
-        $consentimiento = ConsentimientoInformadoPaciente::create([
-            'tipo_consentimiento_informado_id' => $request->tipo_consentimiento_informado_id,
-            'paciente_id' => $request->paciente_id,
-            'firma' => $request->firma,
-        ]);
+            $consentimiento[] = ConsentimientoInformadoPaciente::create([
+                'tipo_consentimiento_informado_id' => $firma['tipo_consentimiento_informado_id'],
+                'paciente_id' => $firma['paciente_id'],
+                'nombre_completo' => $firma['nombre_completo'],
+                'tipo_documento' => $firma['tipo_documento'],
+                'documento' => $firma['documento'],
+                'firma' => $firma['firma'],
+                'relacion_sujeto' => $firma['relacion_sujeto'],
+                'direccion' => $firma['direccion'],
+                'firmante_id' => $firma['firmante_id'],
+            ]);
+        }
+
 
         return $this->success($consentimiento, 1, 'Consentimiento registrado correctamente', 201);
 
@@ -185,6 +200,7 @@ class PacienteRepository implements PacienteRepositoryInterface
                         'primer_apellido' => $pa->primer_apellido,
                         'segundo_apellido' => $pa->segundo_apellido,
                         'fecha_nacimiento' => $pa->fecha_nacimiento,
+                        'edad' => Carbon::parse($pa->fecha_nacimiento)->age,
                         'fecha_expedicion' => $pa->fecha_expedicion,
                         'telefono_celular' => $pa->telefono_celular,
                         'pais_residencia' => $pa->pais_residencia,
@@ -212,6 +228,21 @@ class PacienteRepository implements PacienteRepositoryInterface
             if (count($result) == 0) return $this->error("No se encontró pacientes", 204, []);
 
             return $this->success($result, count($result), 'ok', 200);
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+
+
+    }
+    public function getFirmantes(Request $request)
+    {
+        try {
+
+            $firmantes = Firmante::all();
+
+            if (count($firmantes) == 0) return $this->error("No se encontró firmantes", 204, []);
+
+            return $this->success($firmantes, count($firmantes), 'ok', 200);
         } catch (\Throwable $th) {
             throw $th;
         }

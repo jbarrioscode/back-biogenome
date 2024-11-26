@@ -19,8 +19,8 @@ class RespuestasInfoClinica extends Model
         'unidad',
         'tipo_imagen',
         'observacion',
-        'minv_formulario_id',
-        'pregunta_id',
+        'muestra_id',
+        'pregunta_clinica_id',
         'valor'
     ];
 }
