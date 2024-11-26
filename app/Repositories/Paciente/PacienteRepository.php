@@ -114,6 +114,7 @@ class PacienteRepository implements PacienteRepositoryInterface
 
     public function patientInformedConsent(Request $request)
     {
+        /*
         $rules = [
             'tipo_consentimiento_informado_id' => 'required|integer',
             'paciente_id' => 'required|integer',
@@ -132,17 +133,22 @@ class PacienteRepository implements PacienteRepositoryInterface
         if ($validator->fails()) {
             return $this->error($validator->errors(), 422, []);
         }
+        */
+        foreach ($request->firmas as $firma){
 
-        $consentimiento = ConsentimientoInformadoPaciente::create([
-            'tipo_consentimiento_informado_id' => $request->tipo_consentimiento_informado_id,
-            'paciente_id' => $request->paciente_id,
-            'nombre_completo' => $request->nombre_completo,
-            'tipo_documento' => $request->tipo_documento,
-            'documento' => $request->documento,
-            'relacion_sujeto' => $request->relacion_sujeto,
-            'direccion' => $request->direccion,
-            'firmante_id' => $request->firmante_id,
-        ]);
+            $consentimiento[] = ConsentimientoInformadoPaciente::create([
+                'tipo_consentimiento_informado_id' => $firma['tipo_consentimiento_informado_id'],
+                'paciente_id' => $firma['paciente_id'],
+                'nombre_completo' => $firma['nombre_completo'],
+                'tipo_documento' => $firma['tipo_documento'],
+                'documento' => $firma['documento'],
+                'firma' => $firma['firma'],
+                'relacion_sujeto' => $firma['relacion_sujeto'],
+                'direccion' => $firma['direccion'],
+                'firmante_id' => $firma['firmante_id'],
+            ]);
+        }
+
 
         return $this->success($consentimiento, 1, 'Consentimiento registrado correctamente', 201);
 
