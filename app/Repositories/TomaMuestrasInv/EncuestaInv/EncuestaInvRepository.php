@@ -36,12 +36,25 @@ class EncuestaInvRepository implements EncuestaInvRepositoryInterface
                     ->orderBy('orden_pregunta','asc')
                     ->get();
 
+
                 foreach ($preguntas as $preg){
 
                     $propiedades = PropiedadesPreguntas::select('propiedades_preguntas.parametro as parametro'
                         ,'propiedades_preguntas.pregunta_id as pregunta_id'
                         ,'propiedades_preguntas.propiedad as propiedad')
                         ->where('pregunta_id',$preg->id_pregunta)->get();
+
+                    $fileJson=null;
+
+                    foreach ($propiedades as $pro){
+
+                        if($pro->parametro === 'fileJson'){
+                            $fileJson=$pro->parametro;
+                        }
+
+                    }
+                    $preg->fileJson = $fileJson;
+
 
                     $opciones = OpcionesRespuestas::where('pregunta_id',$preg->id_pregunta)->get();
 

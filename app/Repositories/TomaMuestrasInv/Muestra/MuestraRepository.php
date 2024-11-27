@@ -109,6 +109,12 @@ class MuestraRepository implements MuestraRepositoryInterface
                 'sedes_toma_muestras_id' => $request->sedes_toma_muestras_id,
             ]);
 
+            $validacion = ValidacionesMuestrasRepository::validarRespuestasMuestras($request->detalle,$request->protocolo_id);
+
+            if ($validacion != "") {
+                return $this->error($validacion, 204, []);
+            }
+
             foreach ($request->detalle as $det) {
 
                 $detalle = Respuestas::create([

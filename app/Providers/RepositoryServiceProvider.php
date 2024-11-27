@@ -20,6 +20,8 @@ use App\Repositories\TomaMuestrasInv\Protocolos\ProtocoloRepository;
 use App\Repositories\TomaMuestrasInv\Protocolos\ProtocoloRepositoryInterface;
 use App\Repositories\TomaMuestrasInv\Geografia\GeografiaRepository;
 use App\Repositories\TomaMuestrasInv\Geografia\GeografiaRepositoryInterface;
+use App\Repositories\TomaMuestrasInv\Reportes\ReportesRepositoryInterface;
+use App\Repositories\TomaMuestrasInv\Reportes\ReportesRepository;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 
 class RepositoryServiceProvider extends ServiceProvider
@@ -76,6 +78,14 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(
             ProtocoloRepositoryInterface::class,
             ProtocoloRepository::class
+        );
+        $this->app->bind(
+            ProtocoloRepositoryInterface::class,
+            ProtocoloRepository::class
+        );
+        $this->app->bind(
+            ReportesRepositoryInterface::class,
+            ReportesRepository::class
         );
     }
 }

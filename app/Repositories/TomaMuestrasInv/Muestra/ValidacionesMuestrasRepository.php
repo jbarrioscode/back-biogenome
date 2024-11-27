@@ -2,6 +2,7 @@
 
 namespace App\Repositories\TomaMuestrasInv\Muestra;
 
+use App\Models\TomaMuestrasInv\Encuesta\Preguntas;
 use App\Models\TomaMuestrasInv\Muestras\FormularioMuestra;
 use App\Models\TomaMuestrasInv\Muestras\PreguntasInfoClinica;
 use App\Models\TomaMuestrasInv\Muestras\RespuestasInfoClinica;
@@ -25,6 +26,8 @@ class ValidacionesMuestrasRepository
                     return 'Ya existe información de la pregunta: ' . $inf['pregunta_clinica_id'] . ' de la historia clinica';
                 }
             }
+
+
 
             /*
             //------------------------------------------
@@ -90,6 +93,26 @@ class ValidacionesMuestrasRepository
 
         }
 
+    }
+    public static function validarRespuestasMuestras($detalle, $protocolo_id){
+
+        $preguntas= Preguntas::where('protocolo_id',$protocolo_id)->get();
+        $validado=false;
+
+        foreach ($preguntas as $pre){
+
+            foreach ($detalle as $resp) {
+
+                if($resp['pregunta_id'] == $pre->pregunta_id){
+                    $validado=true;
+                }
+
+            }
+            if (!$validado) return 'Campos imcompletos, falta la pregunta: '.$pre->nombre;
+            $validado=false;
+
+        }
+        return '';
     }
 }
 
