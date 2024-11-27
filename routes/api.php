@@ -10,6 +10,7 @@ use App\Http\Controllers\Api\v1\TomaMuestrasInv\Muestras\GeografiaController;
 use App\Http\Controllers\Api\v1\TomaMuestrasInv\Paciente\PacienteController;
 use App\Http\Controllers\Api\v1\TomaMuestrasInv\Muestras\MuestraController;
 use App\Http\Controllers\Api\v1\TomaMuestrasInv\Muestras\ProtocoloController;
+use App\Http\Controllers\Api\v1\TomaMuestrasInv\Reportes\ReportesController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
@@ -33,7 +34,7 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/user', function (Request 
 Route::prefix('/v1')->group(function () {
 
 
-    //Route::middleware(['auth:sanctum', 'verified'])->group(function () {
+    Route::middleware(['auth:sanctum', 'verified'])->group(function () {
 
 
     /* ADMINISTRADOR*/
@@ -115,7 +116,18 @@ Route::prefix('/v1')->group(function () {
 
     Route::get('/encuesta/get/renderizar-encuesta/{protocolo_id}', [EncuestaController::class, 'renderizarEncuesta']);
 
-    //});
+    /* REPORTE */
+
+    Route::get('/reportes/get/log-muestra/{muestra_id}', [ReportesController::class, 'getMuestraLog']);
+
+    Route::get('/reportes/get/seguimiento-muestras/{protocolo_id}', [ReportesController::class, 'getSeguimentoMuestrasPorPrototipo']);
+
+    Route::get('/reportes/get/data-muestras-fechas/{protocolo_id}', [ReportesController::class, 'getDataMuestrasFecha']);
+
+
+
+
+    });
 
     /* ------------------------------------------------------------------------------------
     /** Clean Cache Route */
