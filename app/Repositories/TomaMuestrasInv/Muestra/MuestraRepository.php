@@ -4,6 +4,7 @@ namespace App\Repositories\TomaMuestrasInv\Muestra;
 
 use App\Http\Requests\TomaMuestrasInv\Muestra\MuestraRequest;
 use App\Models\TomaMuestrasInv\Encuesta\Respuestas;
+use App\Models\TomaMuestrasInv\Encuesta\RespuestasSubpreguntas;
 use App\Models\TomaMuestrasInv\Muestras\FormularioMuestra;
 use App\Models\TomaMuestrasInv\Muestras\LogMuestras;
 use App\Models\TomaMuestrasInv\Muestras\Protocolo_user_sede;
@@ -122,6 +123,16 @@ class MuestraRepository implements MuestraRepositoryInterface
                     'pregunta_id' => $det['pregunta_id'],
                     'respuesta' => $det['respuesta']
                 ]);
+
+                foreach ($det['respuesta_subpreguntas'] as $respuestas_subpreguntas){
+
+                    RespuestasSubpreguntas::create([
+                        'muestras_id' => $formulario->id,
+                        'subpregunta_id' => $respuestas_subpreguntas['subpregunta_id'],
+                        'respuesta' => $respuestas_subpreguntas['respuesta']
+                    ]);
+
+                }
 
             }
 

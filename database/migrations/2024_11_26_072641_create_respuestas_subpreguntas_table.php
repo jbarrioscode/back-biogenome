@@ -15,6 +15,11 @@ return new class extends Migration
             $table->id();
             $table->timestamps();
             $table->softDeletes();
+            $table->text('respuesta');
+            $table->unsignedBigInteger('subpregunta_id');
+            $table->foreign('subpregunta_id')->references('id')->on('sub_preguntas');
+            $table->unsignedBigInteger('muestras_id');
+            $table->foreign('muestras_id')->references('id')->on('muestras');
         });
     }
 
