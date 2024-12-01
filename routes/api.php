@@ -118,7 +118,7 @@ Route::prefix('/v1')->group(function () {
 
     /* REPORTE */
 
-    Route::get('/reportes/get/log-muestra/{muestra_id}', [ReportesController::class, 'getMuestraLog']);
+    Route::get('/reportes/get/log-muestra/{muestra_id}', [ReportesController::class, 'getMuestraLog']); // getTrackingDetailInfo
 
     Route::get('/reportes/get/seguimiento-muestras/{protocolo_id}', [ReportesController::class, 'getSeguimentoMuestrasPorPrototipo']);
 

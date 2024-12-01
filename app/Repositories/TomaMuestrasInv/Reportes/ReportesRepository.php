@@ -62,11 +62,13 @@ class ReportesRepository implements ReportesRepositoryInterface
     {
         try {
 
-            $estados=EstadosMuestras::select('log_muestras.created_At fecha','users.firstName nombre','users.lastName apellido','minv_estados_muestras.nombre estado')
-                ->leftJoin('log_muestras','log_muestras.estado_id','=','minv_estados_muestras.id')
+            $sampleID = FormularioMuestra::where('code_paciente', '=', $muestra_id)->first();
+
+            $estados=EstadosMuestras::select('log_muestras.created_at as fecha','users.firstName as nombre','users.lastName as apellido','minv_estados_muestras.nombre as estado')
+                ->leftJoin('log_muestras','log_muestras.estado_id', '=','minv_estados_muestras.id')
                 ->leftJoin('users','users.id','=','log_muestras.user_id')
-                ->whereIn('id',[1,2,10,9])
-                ->where('log_muestras.muestra_id',$muestra_id)
+                ->whereIn('minv_estados_muestras.id',[1,2,10,9])
+                ->where('log_muestras.muestra_id', '=', $sampleID->id)
                 ->orderby('minv_estados_muestras.id','asc')
                 ->get();
 
