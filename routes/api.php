@@ -93,8 +93,6 @@ Route::prefix('/v1')->group(function () {
 
     Route::get('/muestra/get/tipo-estudio', [MuestraController::class, 'obtenerTipoEstudio']);
     Route::post('/muestra/post/guardar-muestra', [MuestraController::class, 'guardarMuestra']);
-    Route::post('/muestra/post/asignacion-bio-banco', [MuestraController::class, 'asignarMuestraEstante']);
-
 
     /* INFORMACIÓN CLINICA */
 
@@ -102,7 +100,6 @@ Route::prefix('/v1')->group(function () {
     Route::post('/muestra/post/guardar-info-clinica', [MuestraController::class, 'guardarInfoClinica']);
     Route::post('/muestra/post/guardar-cerrar-info-clinica', [MuestraController::class, 'guardarYcerrarInfoClinica']);
     Route::get('/muestra/get/retornar-info-clinica/{muestra_id}', [MuestraController::class, 'getRetornarInfoClinica']);
-
 
 
     /* PROTOCOLO  */
@@ -121,8 +118,10 @@ Route::prefix('/v1')->group(function () {
 
     /* REPORTE */
 
-    Route::get('/reportes/get/log-muestra/{muestra_id}', [ReportesController::class, 'getMuestraLog']);
+    Route::get('/reportes/get/log-muestra/{muestra_id}', [ReportesController::class, 'getMuestraLog']); // getTrackingDetailInfo
+
     Route::get('/reportes/get/seguimiento-muestras/{protocolo_id}', [ReportesController::class, 'getSeguimentoMuestrasPorPrototipo']);
+
     Route::get('/reportes/get/data-muestras-fechas/{protocolo_id}', [ReportesController::class, 'getDataMuestrasFecha']);
 
 
