@@ -93,8 +93,10 @@ Route::prefix('/v1')->group(function () {
 
     Route::get('/muestra/get/tipo-estudio', [MuestraController::class, 'obtenerTipoEstudio']);
     Route::post('/muestra/post/guardar-muestra', [MuestraController::class, 'guardarMuestra']);
+    Route::post('/muestra/post/asignar-muestras-estante', [MuestraController::class, 'asignarMuestraEstante']);
 
-    /* INFORMACIÓN CLINICA */
+
+        /* INFORMACIÓN CLINICA */
 
     Route::get('/muestra/get/pacientes-pendiente-informacion-Clinica', [MuestraController::class, 'getPacientePendienteInfoClinica']);
     Route::post('/muestra/post/guardar-info-clinica', [MuestraController::class, 'guardarInfoClinica']);
