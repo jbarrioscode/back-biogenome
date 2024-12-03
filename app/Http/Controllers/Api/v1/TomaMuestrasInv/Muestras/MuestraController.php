@@ -76,4 +76,14 @@ class MuestraController extends Controller
             throw $th;
         }
     }
+    public function asignarMuestraEstante(Request $request,$muestra_id)
+    {
+        try {
+
+            return $this->muestraRepository->asignarMuestraEstante($request,$muestra_id);
+
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+    }
 }

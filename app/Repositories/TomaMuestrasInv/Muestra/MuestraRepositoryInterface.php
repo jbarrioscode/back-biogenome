@@ -13,6 +13,7 @@ interface MuestraRepositoryInterface
     public function guardarInfoClinica(Request $request);
     public function guardarYcerrarInfoClinica(Request $request);
     public function getRetornarInfoClinica(Request $request,$muestra_id);
+    public function asignarMuestraEstante(Request $request,$muestra_id);
 
 
 }

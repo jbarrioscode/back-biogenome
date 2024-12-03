@@ -3,6 +3,7 @@
 namespace App\Repositories\TomaMuestrasInv\Muestra;
 
 use App\Http\Requests\TomaMuestrasInv\Muestra\MuestraRequest;
+use App\Models\TomaMuestrasInv\AsignacionMuestraUbicacion;
 use App\Models\TomaMuestrasInv\Encuesta\Respuestas;
 use App\Models\TomaMuestrasInv\Encuesta\RespuestasSubpreguntas;
 use App\Models\TomaMuestrasInv\Muestras\FormularioMuestra;
@@ -11,6 +12,7 @@ use App\Models\TomaMuestrasInv\Muestras\Protocolo_user_sede;
 use App\Models\TomaMuestrasInv\Muestras\RespuestasInfoClinica;
 use App\Models\TomaMuestrasInv\Muestras\TipoEstudio;
 use App\Models\TomaMuestrasInv\Paciente\Pacientes;
+use App\Models\TomaMuestrasInv\UbicacionCaja;
 use App\Traits\RequestResponseFormatTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -272,6 +274,95 @@ class MuestraRepository implements MuestraRepositoryInterface
         }
 
 
+    }
+
+    public function asignarMuestraEstante(Request $request,$muestra_id)
+    {
+        try {
+
+            $rules = [
+                'codigo_muestra' => 'required|string',
+                'user_id' => 'required',
+                'codigo_ubicacion' => 'required',
+            ];
+
+            $messages = [
+                'codigo_muestra.required' => 'Codigo de la muestra está vacio.',
+                'user_id.required' => 'ID usuario está vacio.',
+                'codigo_ubicacion.required' => 'ID de la ubicacion se encuentra vacia.',
+            ];
+
+            $validator = Validator::make($request->all(), $rules, $messages);
+            if ($validator->fails()) {
+                return $this->error($validator->errors(), 422, []);
+            }
+
+            $codificacion = explode('-', $request->codigo_muestra);
+
+            $codigo_muestra = preg_split('/([0-9]+)/', $codificacion[0], -1, PREG_SPLIT_NO_EMPTY | PREG_SPLIT_DELIM_CAPTURE);
+
+            /*
+            if(isset($codigo_muestra[1])){
+                $validacion = ValidacionesEncuestaInvRepository::validarCodificacionMuestra($codificacion,$codigo_muestra,'','CONTRAMUESTRA');
+            }else{
+                $validacion = ValidacionesEncuestaInvRepository::validarCodificacionMuestra($codificacion,$codigo_muestra,$codificacion[1],'CONTRAMUESTRA');
+
+            }
+
+
+            if ($validacion != "") {
+                return $this->error($validacion, 204, []);
+            }
+            */
+
+            $codificacionUbicacion = explode('-', $request->codigo_ubicacion);
+
+            if(!isset($codigo_muestra[1])){
+                $id_muestra=FormularioMuestra::where('code_paciente',$codificacion[1])->pluck('id')->first();
+            }else{
+                $id_muestra=$codigo_muestra[1];
+            }
+
+            /*
+            $validacion2 = ValidacionesEncuestaInvRepository::validarCodigoUbicacion($codificacionUbicacion,$id_muestra);
+
+            if ($validacion2 != "") {
+                return $this->error($validacion2, 204, []);
+            }
+            */
+
+            $idUbicacion= UbicacionCaja::select('ubicacion_cajas.id')
+                ->join('ubicacion_estantes', 'ubicacion_cajas.nevera_estante_id', '=', 'ubicacion_estantes.id')
+                ->join('ubicacion_bio_bancos', 'ubicacion_bio_bancos.id', '=', 'ubicacion_estantes.ubicacion_bio_bancos_id')
+                ->where('ubicacion_cajas.num_caja',$codificacionUbicacion[2])
+                ->where('ubicacion_cajas.num_fila',$codificacionUbicacion[3])
+                ->first();
+
+            if($idUbicacion == null) return $this->error('Ubicacion no creada', 204, []);
+
+
+            $asignacion = AsignacionMuestraUbicacion::create([
+                'minv_formulario_muestras_id' => $id_muestra,
+                'user_id_located' => $request->user_id,
+                'caja_nevera_id' => $idUbicacion->id,
+            ]);
+
+            LogMuestras::create([
+                'minv_formulario_id' => $id_muestra,
+                'user_id_executed' => $request->user_id,
+                'estado_id' => 6,
+            ]);
+
+            DB::commit();
+
+            return $this->success($asignacion, 1, 'Asignacion realizada correctamente', 201);
+
+
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            return $this->error('Hay un error' . $th, 204, []);
+            throw $th;
+        }
     }
 
 }
