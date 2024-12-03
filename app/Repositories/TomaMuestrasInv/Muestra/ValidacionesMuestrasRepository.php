@@ -84,7 +84,7 @@ class ValidacionesMuestrasRepository
                 ->where('protocolo_id',$request->protocolo_id)->get()) > 0) {
             return 'Paciente ya se encuentra participando a este protocolo';
         }
-
+        /*
         foreach ($request->detalle as $det) {
 
             if($det->muestra_id == null || $det->pregunta_id == '' || $det->respuesta == null){
@@ -92,6 +92,8 @@ class ValidacionesMuestrasRepository
             }
 
         }
+        */
+        return '';
 
     }
     public static function validarRespuestasMuestras($detalle, $protocolo_id){
