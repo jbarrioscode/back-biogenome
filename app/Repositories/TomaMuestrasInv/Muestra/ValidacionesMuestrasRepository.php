@@ -2,6 +2,7 @@
 
 namespace App\Repositories\TomaMuestrasInv\Muestra;
 
+use App\Models\TomaMuestrasInv\Encuesta\GrupoPregunta;
 use App\Models\TomaMuestrasInv\Encuesta\Preguntas;
 use App\Models\TomaMuestrasInv\Muestras\FormularioMuestra;
 use App\Models\TomaMuestrasInv\Muestras\PreguntasInfoClinica;
@@ -98,7 +99,12 @@ class ValidacionesMuestrasRepository
     }
     public static function validarRespuestasMuestras($detalle, $protocolo_id){
 
-        $preguntas= Preguntas::where('protocolo_id',$protocolo_id)->get();
+        $preguntas = GrupoPregunta::select('preguntas.*')
+            ->leftjoin('preguntas','preguntas.grupo_pregunta_id','=','grupo_preguntas.id')
+            ->where('protocolo_id',$protocolo_id)
+            ->get();
+
+        //$preguntas= Preguntas::where('protocolo_id',$protocolo_id)->get();
         $validado=false;
 
         foreach ($preguntas as $pre){
